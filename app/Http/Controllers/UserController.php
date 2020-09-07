@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Mehnat\User\Entities\User;
-use Mehnat\User\Service\UserService;
-use Mehnat\User\Repository\UserRepository;
+use Mehnat\User\Services\UserService;
+use Mehnat\User\Repositories\UserRepository;
 
 class UserController extends Controller
 {
     private $usersClass;
+    private $userService;
+    private $userRepository;
+
     public function __construct()
     {
         $this->usersClass = User::class;
+        $this->userService = new UserService;
         $this->userRepository = new UserRepository;
     }
     /**
@@ -23,7 +27,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->usersClass;
+        $users = $this->usersClass::query();
 
         $users = $this->userService->filter($users);
         $users = $this->userService->sort($users);
@@ -40,7 +44,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $user = $this->userRepository->create($request);
+        $profile = $this->userProfileRepository->create($user);
+
+
     }
 
     /**

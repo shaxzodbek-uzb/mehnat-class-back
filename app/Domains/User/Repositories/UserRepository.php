@@ -1,5 +1,6 @@
 <?php
-namespace Mehnat\User\Repository;
+namespace Mehnat\User\Repositories;
+
 class UserRepository
 {
     public function getAll($query)
