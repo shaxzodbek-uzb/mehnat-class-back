@@ -16,8 +16,8 @@ class UserService
 
     public function sort($query)
     {
-        $key = request()->get('sort_key','created_at');
-        $order = request()->get('sort_order', 'desc');
+        $key = request()->get('sort_key','username');
+        $order = request()->get('sort_order', 'asc');
         $query->orderBy($key, $order);
 
         return $query;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Response;
 use Illuminate\Http\Request;
 use Mehnat\User\Entities\User;
 use Mehnat\User\Services\UserService;

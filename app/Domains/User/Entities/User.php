@@ -2,14 +2,16 @@
 
 namespace Mehnat\User\Entities;
 
+use Mehnat\Core\Traits\StatusTrait;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Mehnat\Core\Traits\StatusTrait;
 
 class User extends Authenticatable
 {
 
+    use Notifiable;
   //  use StatusTrait;
     
     /**
@@ -17,15 +19,13 @@ class User extends Authenticatable
      *
      * @return void
      */
-    protected static function booted()
-    {
-        static::addGlobalScope('adult', function (Builder $builder) {
-            $builder->where('age', '>', 17);
-        });
+    // protected static function boot()
+    // {
+    //     static::addGlobalScope('adult', function (Builder $builder) {
+    //         $builder->where('age', '>', 17);
+    //     });
         
-    }
-    use Notifiable;
-
+    // }
     /**
      * The attributes that are mass assignable.
      *
@@ -41,7 +41,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'created_at', 'updated_at'
     ];
 
     /**
