@@ -1,5 +1,5 @@
 <?php
-namespace Mehnat\Core\Traits\StatusTrait;
+namespace Mehnat\Core\Traits;
 
 trait StatusTrait
 {
@@ -19,3 +19,4 @@ trait StatusTrait
         return $query->update(['status' => self::status_active]);
     }
 }
+
