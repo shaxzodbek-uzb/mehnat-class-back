@@ -28,13 +28,13 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->usersClass::query();
-
         $users = $this->userService->filter($users);
         $users = $this->userService->sort($users);
         // get users
         $users = $this->userRepository->getAll($users);
         
-        return response()->json($users);
+        return Response::successResponse($users, 'Users retrieved successfully!');
+        //return response()->json($users);
     }
 
     /**
@@ -44,10 +44,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = $this->userRepository->create($request);
-        $profile = $this->userProfileRepository->create($user);
-
-
+        //
     }
 
     /**
@@ -105,3 +102,4 @@ class UserController extends Controller
         //
     }
 }
+

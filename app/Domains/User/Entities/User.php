@@ -5,11 +5,12 @@ namespace Mehnat\User\Entities;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Mehnat\Core\Traits\StatusTrait;
 
 class User extends Authenticatable
 {
 
-    use StatusTrait;
+  //  use StatusTrait;
     
     /**
      * The "booted" method of the model.
@@ -31,7 +32,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username',  'password', 'fullname', 'active'
     ];
 
     /**

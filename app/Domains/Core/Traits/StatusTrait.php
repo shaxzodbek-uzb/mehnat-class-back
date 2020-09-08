@@ -1,19 +1,21 @@
 <?php
+namespace Mehnat\Core\Traits\StatusTrait;
+
 trait StatusTrait
 {
-    const STATUS_ACTIVE = 'active';
-    const STATUS_DISABLED = 'disabled';
+    static $status_active = 'active';
+    static $status_disabled = 'disabled';
     
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('status', $this->STATUS_ACTIVE);
+        return $query->where('status', self::status_active);
     }
     public function scopeDisabled(Builder $query): Builder
     {
-        return $query->where('status', $this->STATUS_DISABLED);
+        return $query->where('status', self::status_disabled);
     }
     public function activate(Builder $query): boolean
     {
-        return $query->update(['status' => $this->STATUS_ACTIVE]);
+        return $query->update(['status' => self::status_active]);
     }
 }
