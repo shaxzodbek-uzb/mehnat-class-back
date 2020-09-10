@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Domains\User\Repositories\UserProfileRepository;
 use Illuminate\Http\Request;
 use Mehnat\User\Entities\User;
 use Mehnat\User\Services\UserService;
@@ -13,18 +14,15 @@ class UserController extends Controller
     private $usersClass;
     private $userService;
     private $userRepository;
-
+    private $userProfileRepository;
     public function __construct()
     {
         $this->usersClass = User::class;
         $this->userService = new UserService;
         $this->userRepository = new UserRepository;
+        $this->userProfileRepository = new UserProfileRepository;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $users = $this->usersClass::query();
@@ -33,7 +31,7 @@ class UserController extends Controller
         $users = $this->userService->sort($users);
         // get users
         $users = $this->userRepository->getAll($users);
-        
+
         return response()->json($users);
     }
 
@@ -42,12 +40,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $user = $this->userRepository->create($request);
         $profile = $this->userProfileRepository->create($user);
-
-
+        return $user;
     }
 
     /**
@@ -58,6 +55,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
     }
 
     /**
