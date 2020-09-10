@@ -23,7 +23,7 @@ $factory->define(User::class, function (Faker $faker) {
         'password' => bcrypt(123456),
         'remember_token' => Str::random(10),
         'fullname' => $faker->firstName . ' ' . $faker->lastName,
-        'age' => $faker->randomDigit
+        'age' => $faker->numberBetween(14, 22),
     ];
 });
 

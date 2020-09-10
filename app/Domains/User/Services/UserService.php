@@ -6,9 +6,15 @@ class UserService
 {
     public function filter(Builder $query): Builder
     {
-        $user_name = request()->get('user_name', false);
+        $user_name = request()->get('username', false);
+        $age = request()->get('age', false);
+
         if ($user_name){
             $query->where('username', 'like', "%$user_name%");
+        }
+
+        if ($age){
+            $query->where('age', '=', $age);
         }
         
         return $query;

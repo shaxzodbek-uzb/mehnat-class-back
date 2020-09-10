@@ -18,12 +18,13 @@ class User extends Authenticatable
      *
      * @return void
      */
+
     protected static function boot()
     {
         parent::boot();
 
         static::addGlobalScope('adult', function (Builder $builder) {
-            $builder->where('age', '<', 7);
+            $builder->where('age', '>', 17);
         });
         
     }
@@ -33,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username',  'password', 'fullname', 'active'
+        'username',  'password', 'fullname', 'active', 'age'
     ];
 
     /**
@@ -54,9 +55,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function adult(Builder $query):Builder
+    public function setPasswordAttribute($value)
     {
-        return $query->where('age', '>=', 18);
+        $this->attributes['password'] = bcrypt($value);
     }
+
+    // public function adult(Builder $query):Builder
+    // {
+    //     return $query->where('age', '>=', 18);
+    // }
 
 }

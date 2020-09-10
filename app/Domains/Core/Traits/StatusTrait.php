@@ -3,8 +3,9 @@ namespace Mehnat\Core\Traits;
 
 trait StatusTrait
 {
-    static $status_active = 'active';
-    static $status_disabled = 'disabled';
+    static $status_active = '1';
+    static $status_disabled = '2';
+    static $status_bunned = '0';
     
     public function scopeActive(Builder $query): Builder
     {

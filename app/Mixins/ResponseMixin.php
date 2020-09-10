@@ -3,10 +3,10 @@
 namespace App\Mixins;
 
 class ResponseMixin {
-	public function successResponse() {
-		return function($data, $message = 'Default succes message') {
+	public function customResponse() {
+		return function($status, $data, $message = 'Default succes message') {
             return [
-                'success' => true,
+                'success' => $status,
                 'data' => $data,
                 'message' => $message
             ];
