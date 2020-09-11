@@ -47,7 +47,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $input = $request->all();
 
@@ -80,7 +80,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        
+        $user = $this->usersClass::query();
+
+        $result = $this->userRepository->getById($user, $id);
+
+        return Response::customResponse(true, $result, 'User retrieved successfully!');
     }
 
     /**
@@ -92,7 +96,28 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $input = $request->all();
+
+        $rules = [
+            'username' => 'required|string|unique:users,username,'.$id,
+            'password' => 'required',
+            'fullname' => 'required',
+            'age' => 'numeric'
+        ];
+
+        $validate = Validator::make($input, $rules);
+
+        if($validate->fails()) {
+            return Response::customResponse(false, $validate->failed(), 'Data not valid!');
+        }
+
+        $user = $this->usersClass::query();
+        $user = $this->userRepository->getById($user, $id);
+        $result = $this->userRepository->update($user, $input);
+
+        if($result) {
+            return Response::customResponse(true, $result, 'User successfully updated!');
+        }
     }
 
     /**
@@ -103,6 +128,13 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = $this->usersClass::query();
+
+        $user = $this->userRepository->getById($user, $id);
+        $result = $this->userRepository->destroy($user, $id);
+
+        if($result) {
+            return Response::customResponse(true, [], 'User deleted!');
+        }
     }
 }
