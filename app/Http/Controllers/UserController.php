@@ -13,9 +13,12 @@ class UserController extends Controller
     private $usersClass;
     private $userService;
     private $userRepository;
-
-    public function __construct()
+    private $smsGate;
+    public function __construct(SmsGateAdapterInterface $smsGate)
     {
+
+        $this->smsGate = $smsGate;
+
         $this->usersClass = User::class;
         $this->userService = new UserService;
         $this->userRepository = new UserRepository;
@@ -33,7 +36,9 @@ class UserController extends Controller
         $users = $this->userService->sort($users);
         // get users
         $users = $this->userRepository->getAll($users);
-        
+
+        $smsGate->send('99123','129jk3n1');
+
         return response()->json($users);
     }
 

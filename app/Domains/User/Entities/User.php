@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements StatusInterface
 {
 
     use StatusTrait;
@@ -55,6 +55,18 @@ class User extends Authenticatable
     public function adult(Builder $query):Builder
     {
         return $query->where('age', '>=', 18);
+    }
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', $this->STATUS_ACTIVE);
+    }
+    public function scopeDisabled(Builder $query): Builder
+    {
+        return $query->where('status', $this->STATUS_DISABLED);
+    }
+    public function activate(Builder $query): boolean
+    {
+        return $query->update(['status' => $this->STATUS_ACTIVE]);
     }
 
 }

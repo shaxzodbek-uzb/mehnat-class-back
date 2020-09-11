@@ -1,9 +1,6 @@
 <?php
 trait StatusTrait
 {
-    const STATUS_ACTIVE = 'active';
-    const STATUS_DISABLED = 'disabled';
-    
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', $this->STATUS_ACTIVE);
