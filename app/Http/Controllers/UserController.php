@@ -7,14 +7,15 @@ use Illuminate\Http\Request;
 use Mehnat\User\Entities\User;
 use Mehnat\User\Services\UserService;
 use Mehnat\User\Repositories\UserRepository;
-
+use App\Http\Requests\StoreUserRequest;
+use App\Domains\SmsGate\Interfaces\SmsGateAdapterInterface;
 class UserController extends Controller
 {
     private $usersClass;
     private $userService;
     private $userRepository;
     private $smsGate;
-    public function __construct(SmsGateAdapterInterface $smsGate)
+    public function __construct(SmsGateAdapterInterface $smsGate, Filesystem $filesystem)
     {
 
         $this->smsGate = $smsGate;
@@ -30,14 +31,22 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->usersClass::query();
+        DB::beginTransaction();
+        try{
 
-        $users = $this->userService->filter($users);
-        $users = $this->userService->sort($users);
-        // get users
-        $users = $this->userRepository->getAll($users);
-
-        $smsGate->send('99123','129jk3n1');
+            $users = $this->usersClass::query();
+    
+            $users = $this->userService->filter($users);
+            $users = $this->userService->sort($users);
+            // get users
+            $users = $this->userRepository->getAll($users);
+    
+            $smsGate->send('99123','129jk3n1');
+            DB::commit();
+        }
+        catch(){
+            DB::rollBack();
+        }
 
         return response()->json($users);
     }
@@ -61,8 +70,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
+        $params = $request->validate();
     }
 
     /**

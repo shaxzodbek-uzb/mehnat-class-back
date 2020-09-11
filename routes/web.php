@@ -17,4 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+new UserController()
 Route::resource('users', 'UserController');
