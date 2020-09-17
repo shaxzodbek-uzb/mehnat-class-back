@@ -1,6 +1,8 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Mehnat\User\Entities\User;
 
 class UserSeeder extends Seeder
 {
@@ -11,6 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(Mehnat\User\Entities\User::class, 20)->create();
+        factory(User::class, 20)->create();
     }
 }
