@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function index()
     {
-      DB::beginTransaction();
+        DB::beginTransaction();
         try{
             
             $users = $this->usersClass::query();
@@ -37,14 +37,14 @@ class UserController extends Controller
             $users = $this->userService->sort($users);
             // get users
             $users = $this->userRepository->getAll($users);
-            
+
             return Response::successResponse($users, 'Users retrieved successfully!');
             //return response()->json($users);
-      
-            }
+
+        }
             catch(\Exception $e){
-                DB::rollBack();
-            }
+            DB::rollBack();
+        }
 
         $users = $this->userService->filter($users);
         $users = $this->userService->sort($users);
