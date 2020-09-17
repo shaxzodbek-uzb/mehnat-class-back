@@ -1,12 +1,14 @@
 <?php
-namespace Mehnat\Core\Traits;
+namespace App\Domains\Core\Traits;
 
 trait StatusTrait
 {
+
     public $status_active = '1';
     public $status_disabled = '2';
     public $status_bunned = '0';
     
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', $this->status_active);

@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Response;
 use Illuminate\Http\Request;
 use Mehnat\User\Entities\User;
 use Mehnat\User\Services\UserService;
 use Mehnat\User\Repositories\UserRepository;
-
+use App\Http\Requests\StoreUserRequest;
+use App\Domains\SmsGate\Interfaces\SmsGateAdapterInterface;
 class UserController extends Controller
 {
     private $usersClass;
     private $userService;
     private $userRepository;
-
+    private $smsGate;
     public function __construct()
     {
         $this->usersClass = User::class;
@@ -27,14 +29,24 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->usersClass::query();
-        $users = $this->userService->filter($users);
-        $users = $this->userService->sort($users);
-        // get users
-        $users = $this->userRepository->getAll($users);
-        
-        return Response::successResponse($users, 'Users retrieved successfully!');
-        //return response()->json($users);
+      DB::beginTransaction();
+        try{
+            
+            $users = $this->usersClass::query();
+            $users = $this->userService->filter($users);
+            $users = $this->userService->sort($users);
+            // get users
+            $users = $this->userRepository->getAll($users);
+            
+            return Response::successResponse($users, 'Users retrieved successfully!');
+            //return response()->json($users);
+      
+            }
+            catch(\Exception $e){
+                DB::rollBack();
+            }
+
+        return response()->json($users);
     }
 
     /**
@@ -53,8 +65,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
+        $params = $request->validate();
     }
 
     /**
