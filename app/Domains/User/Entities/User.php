@@ -6,14 +6,17 @@ use App\Domains\Core\Traits\StatusTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Mehnat\User\Interfaces\StatusInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Mehnat\Core\Traits\StatusTrait;
 
-class User extends Authenticatable implements StatusInterface
+
+class User extends Authenticatable
 {
     use Notifiable;
     use StatusTrait;
-    
+
     /**
      * The "booted" method of the model.
      *
@@ -27,7 +30,7 @@ class User extends Authenticatable implements StatusInterface
         static::addGlobalScope('adult', function (Builder $builder) {
             $builder->where('age', '>', 17);
         });
-        
+
     }
     /**
      * The attributes that are mass assignable.
@@ -55,27 +58,9 @@ class User extends Authenticatable implements StatusInterface
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }
-    public function scopeActive(Builder $query): Builder
-    {
-        return $query->where('status', $this->STATUS_ACTIVE);
-    }
-    public function scopeDisabled(Builder $query): Builder
-    {
-        return $query->where('status', $this->STATUS_DISABLED);
-    }
-    public function activate(Builder $query): boolean
-    {
-        return $query->update(['status' => $this->STATUS_ACTIVE]);
-    }
-
-    // public function adult(Builder $query):Builder
-    // {
-    //     return $query->where('age', '>=', 18);
-    // }
 
 }

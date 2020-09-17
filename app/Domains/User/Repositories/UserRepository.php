@@ -2,6 +2,8 @@
 namespace Mehnat\User\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 
+use Mehnat\User\Entities\User;
+
 class UserRepository
 {
     public function getAll(Builder $query) 

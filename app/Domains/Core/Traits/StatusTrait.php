@@ -1,13 +1,13 @@
 <?php
-namespace App\Domains\Core\Traits;
+namespace Mehnat\Core\Traits;
+
+use Illuminate\Database\Eloquent\Builder;
 
 trait StatusTrait
 {
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DISABLED = 'disabled';
 
-    public $status_active = '1';
-    public $status_disabled = '2';
-    public $status_bunned = '0';
-    
 
     public function scopeActive(Builder $query): Builder
     {
@@ -29,4 +29,3 @@ trait StatusTrait
         return $query->update(['status' => $this->status_active]);
     }
 }
-

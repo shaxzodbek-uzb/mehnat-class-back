@@ -10,23 +10,23 @@ use Mehnat\User\Services\UserService;
 use Mehnat\User\Repositories\UserRepository;
 use App\Http\Requests\StoreUserRequest;
 use App\Domains\SmsGate\Interfaces\SmsGateAdapterInterface;
+use App\Domains\User\Repositories\UserProfileRepository;
+
 class UserController extends Controller
 {
     private $usersClass;
     private $userService;
     private $userRepository;
+    private $userProfileRepository;
     private $smsGate;
     public function __construct()
     {
         $this->usersClass = User::class;
         $this->userService = new UserService;
         $this->userRepository = new UserRepository;
+        $this->userProfileRepository = new UserProfileRepository;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
       DB::beginTransaction();
@@ -46,6 +46,11 @@ class UserController extends Controller
                 DB::rollBack();
             }
 
+        $users = $this->userService->filter($users);
+        $users = $this->userService->sort($users);
+        // get users
+        $users = $this->userRepository->getAll($users);
+
         return response()->json($users);
     }
 
@@ -54,9 +59,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $user = $this->userRepository->create($request);
+        $profile = $this->userProfileRepository->create($user);
+        return $user;
     }
 
     /**
