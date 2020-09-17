@@ -1,18 +1,18 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Mehnat\User\Entities\User;
 
-class DatabaseSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call(UserSeeder::class);
+        factory(User::class, 20)->create();
     }
 }
