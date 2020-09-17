@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait StatusTrait
 {
-    const STATUS_ACTIVE = 'active';
-    const STATUS_DISABLED = 'disabled';
+    static $STATUS_ACTIVE = 'active';
+    static $STATUS_DISABLED = 'disabled';
 
 
     public function scopeActive(Builder $query): Builder

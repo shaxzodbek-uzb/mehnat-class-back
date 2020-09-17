@@ -2,14 +2,11 @@
 
 namespace Mehnat\User\Entities;
 
-use App\Domains\Core\Traits\StatusTrait;
+use Mehnat\Core\Traits\StatusTrait;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Mehnat\Core\Traits\StatusTrait;
 
 
 class User extends Authenticatable

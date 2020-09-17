@@ -1,9 +1,20 @@
 <?php
 namespace Mehnat\User\Services;
+
+use Mehnat\User\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Mehnat\User\Entities\User;
 
 class UserService
 {
+    private $userRepo;
+    private $users;
+
+    public function __construct()
+    {
+        $this->userRepo = new UserRepository;
+    }
     public function filter(Builder $query): Builder
     {
         $user_name = request()->get('username', false);
@@ -37,7 +48,7 @@ class UserService
         return $query;
     }
 
-    public function sort($query)
+    public function sort($query): Builder
     {
         $key = request()->get('sort_key','username');
         $order = request()->get('sort_order', 'asc');
@@ -49,5 +60,13 @@ class UserService
     {
         $strategy = (new NotificationStrategy)->getStrategy($type);
         $strategy->send();
+    }
+    public function getUsers(): Collection
+    {
+        $users = $this->userRepo->getQuery();
+        $users = $this->filter($users);
+        $users = $this->sort($users);
+        $users = $this->userRepo->get($users);
+        return $users;
     }
 }
