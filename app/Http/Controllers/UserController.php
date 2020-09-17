@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
+use DB;
+use Response;
 use Illuminate\Http\Request;
 use Mehnat\User\Entities\User;
 use Mehnat\User\Services\UserService;
@@ -15,11 +16,8 @@ class UserController extends Controller
     private $userService;
     private $userRepository;
     private $smsGate;
-    public function __construct(SmsGateAdapterInterface $smsGate, Filesystem $filesystem)
+    public function __construct()
     {
-
-        $this->smsGate = $smsGate;
-
         $this->usersClass = User::class;
         $this->userService = new UserService;
         $this->userRepository = new UserRepository;
@@ -31,22 +29,22 @@ class UserController extends Controller
      */
     public function index()
     {
-        DB::beginTransaction();
+      DB::beginTransaction();
         try{
-
+            
             $users = $this->usersClass::query();
-    
             $users = $this->userService->filter($users);
             $users = $this->userService->sort($users);
             // get users
             $users = $this->userRepository->getAll($users);
-    
-            $smsGate->send('99123','129jk3n1');
-            DB::commit();
-        }
-        catch(){
-            DB::rollBack();
-        }
+            
+            return Response::successResponse($users, 'Users retrieved successfully!');
+            //return response()->json($users);
+      
+            }
+            catch(\Exception $e){
+                DB::rollBack();
+            }
 
         return response()->json($users);
     }
@@ -58,10 +56,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = $this->userRepository->create($request);
-        $profile = $this->userProfileRepository->create($user);
-
-
+        //
     }
 
     /**
@@ -120,3 +115,4 @@ class UserController extends Controller
         //
     }
 }
+

@@ -6,9 +6,32 @@ class UserService
 {
     public function filter(Builder $query): Builder
     {
-        $user_name = request()->get('user_name', false);
+        $user_name = request()->get('username', false);
+        $age = request()->get('age', false);
+        $status = request()->get('status', false);
+
         if ($user_name){
             $query->where('username', 'like', "%$user_name%");
+        }
+
+        if ($age){
+            $query->where('age', '=', $age);
+        }
+
+        if ($status){
+            switch ($status) {
+                case 1:
+                    $query->active();
+                    break;
+                case 2:
+                    $query->disabled();
+                    break;
+                case 0:
+                    $query->bunned();
+                    break;
+                default:
+                    break;
+            }
         }
         
         return $query;
@@ -16,8 +39,8 @@ class UserService
 
     public function sort($query)
     {
-        $key = request()->get('sort_key','created_at');
-        $order = request()->get('sort_order', 'desc');
+        $key = request()->get('sort_key','username');
+        $order = request()->get('sort_order', 'asc');
         $query->orderBy($key, $order);
 
         return $query;

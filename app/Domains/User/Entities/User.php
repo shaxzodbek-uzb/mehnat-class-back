@@ -2,13 +2,16 @@
 
 namespace Mehnat\User\Entities;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Domains\Core\Traits\StatusTrait;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Mehnat\User\Interfaces\StatusInterface;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements StatusInterface
 {
-
+    use Notifiable;
     use StatusTrait;
     
     /**
@@ -16,22 +19,23 @@ class User extends Authenticatable implements StatusInterface
      *
      * @return void
      */
-    protected static function booted()
+
+    protected static function boot()
     {
+        parent::boot();
+
         static::addGlobalScope('adult', function (Builder $builder) {
             $builder->where('age', '>', 17);
         });
         
     }
-    use Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username',  'password', 'fullname', 'active', 'age'
     ];
 
     /**
@@ -40,7 +44,7 @@ class User extends Authenticatable implements StatusInterface
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'created_at', 'updated_at'
     ];
 
     /**
@@ -52,9 +56,9 @@ class User extends Authenticatable implements StatusInterface
         'email_verified_at' => 'datetime',
     ];
 
-    public function adult(Builder $query):Builder
+    public function setPasswordAttribute($value)
     {
-        return $query->where('age', '>=', 18);
+        $this->attributes['password'] = bcrypt($value);
     }
     public function scopeActive(Builder $query): Builder
     {
@@ -68,5 +72,10 @@ class User extends Authenticatable implements StatusInterface
     {
         return $query->update(['status' => $this->STATUS_ACTIVE]);
     }
+
+    // public function adult(Builder $query):Builder
+    // {
+    //     return $query->where('age', '>=', 18);
+    // }
 
 }
