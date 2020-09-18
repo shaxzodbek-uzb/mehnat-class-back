@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait StatusTrait
 {
+
     static $STATUS_ACTIVE = 'active';
     static $STATUS_DISABLED = 'disabled';
 

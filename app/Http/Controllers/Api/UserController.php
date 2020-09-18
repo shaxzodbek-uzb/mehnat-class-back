@@ -87,7 +87,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $input = $request->all();
+        $input = $request->all();
 
         $rules = [
             'username' => 'required|string|unique:users,username,'.$id,

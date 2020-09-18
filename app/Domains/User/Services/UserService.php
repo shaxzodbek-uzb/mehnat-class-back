@@ -11,9 +11,13 @@ class UserService
     private $userRepo;
     private $users;
 
-    public function __construct()
+    public function __construct() 
     {
-        $this->userRepo = new UserRepository;
+        $this->repo = new UserRepository();
+    }
+    public function getAll(Builder $query) :Collection
+    {
+        return $this->repo->getAll($query);
     }
     public function filter(Builder $query): Builder
     {
