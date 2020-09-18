@@ -1,4 +1,5 @@
 <?php
+
 namespace Mehnat\User\Services;
 
 use Mehnat\User\Repositories\UserRepository;
@@ -14,21 +15,22 @@ class UserService
     {
         $this->userRepo = new UserRepository();
     }
+
     public function filter(Builder $query): Builder
     {
         $user_name = request()->get('username', false);
         $age = request()->get('age', false);
         $status = request()->get('status', false);
 
-        if ($user_name){
+        if ($user_name) {
             $query->where('username', 'like', "%$user_name%");
         }
 
-        if ($age){
+        if ($age) {
             $query->where('age', '=', $age);
         }
 
-        if ($status){
+        if ($status) {
             switch ($status) {
                 case 1:
                     $query->active();
@@ -49,17 +51,19 @@ class UserService
 
     public function sort($query): Builder
     {
-        $key = request()->get('sort_key','username');
+        $key = request()->get('sort_key', 'username');
         $order = request()->get('sort_order', 'asc');
         $query->orderBy($key, $order);
 
         return $query;
     }
+
     public function notify($user, string $type)
     {
         $strategy = (new NotificationStrategy)->getStrategy($type);
         $strategy->send();
     }
+
     public function getUsers(): Collection
     {
         $users = $this->userRepo->getQuery();
@@ -69,17 +73,22 @@ class UserService
         $users = $this->userRepo->getAll($users);
         return $users;
     }
-    public function getShow($id){
+
+    public function getShow($id)
+    {
         $user = $this->userRepo->getQuery();
         $user = $this->userRepo->getById($user, $id);
         return $user;
     }
 
-    public function getCreate($input){
+    public function getCreate($input)
+    {
         $user = $this->userRepo->create($input);
         return $user;
     }
-    public function getUpdate($input, $id){
+
+    public function getUpdate($input, $id)
+    {
         $user = $this->userRepo->update($input, $id);
         return $user;
     }

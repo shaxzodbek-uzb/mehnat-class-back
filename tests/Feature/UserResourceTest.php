@@ -10,7 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserResourceTest extends TestCase
 {
-     use FakerTrait;
+    use FakerTrait;
+
     /**
      * A basic feature test example.
      *
@@ -37,7 +38,7 @@ class UserResourceTest extends TestCase
     public function testStoreUser()
     {
         $response = $this->json('POST', 'api/v1/users', [
-            'username' => 'Sally '.Str::random(3),
+            'username' => 'Sally ' . Str::random(3),
             'fullname' => 'Smith',
             'password' => bcrypt(123456),
             'age' => 19
