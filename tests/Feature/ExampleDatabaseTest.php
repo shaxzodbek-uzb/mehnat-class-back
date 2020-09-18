@@ -17,6 +17,9 @@ class ExampleDatabaseTest extends TestCase
     {
         // Make call to application...
 
+        $this->assertDatabaseMissing('users', [
+            'username' => 'fdf',
+        ]);
         $this->assertDatabaseHas('users', [
             'username' => 'pkoss',
         ]);

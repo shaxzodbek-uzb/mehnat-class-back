@@ -22,8 +22,9 @@ class UserRepository
             return $this->users->all();
     }
 
-    public function create($model, $input)
+    public function create($input)
     {
+        $model = $this->users;
     	try {
 
     		$model->username = $input['username'];
@@ -45,8 +46,9 @@ class UserRepository
     	return $query->findOrFail($id);
     }
 
-    public function update($model, $input)
+    public function update($input, $id)
     {
+        $model = $this->getById($this->users, $id);
     	return $model->update([
     		'username' => $input['username'],
     		'fullname' => $input['fullname'],

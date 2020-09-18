@@ -65,7 +65,22 @@ class UserService
         $users = $this->userRepo->getQuery();
         $users = $this->filter($users);
         $users = $this->sort($users);
+        $users = $users->orderBy('id', 'desc');
         $users = $this->userRepo->getAll($users);
         return $users;
+    }
+    public function getShow($id){
+        $user = $this->userRepo->getQuery();
+        $user = $this->userRepo->getById($user, $id);
+        return $user;
+    }
+
+    public function getCreate($input){
+        $user = $this->userRepo->create($input);
+        return $user;
+    }
+    public function getUpdate($input, $id){
+        $user = $this->userRepo->update($input, $id);
+        return $user;
     }
 }
