@@ -7,51 +7,32 @@ use Response;
 use Illuminate\Http\Request;
 use Mehnat\User\Entities\User;
 use Mehnat\User\Services\UserService;
-use Mehnat\User\Repositories\UserRepository;
 use App\Http\Requests\StoreUserRequest;
 use App\Domains\SmsGate\Interfaces\SmsGateAdapterInterface;
 use App\Domains\User\Repositories\UserProfileRepository;
 
 class UserController extends Controller
 {
-    private $usersClass;
     private $userService;
-    private $userRepository;
-    private $userProfileRepository;
     private $smsGate;
     public function __construct()
     {
-        $this->usersClass = User::class;
         $this->userService = new UserService;
-        $this->userRepository = new UserRepository;
-        $this->userProfileRepository = new UserProfileRepository;
     }
 
     public function index()
     {
-        // DB::beginTransaction();
-        // try{
-            
-        //     $users = $this->usersClass::query();
-        //     $users = $this->userService->filter($users);
-        //     $users = $this->userService->sort($users);
-        //     // get users
-        //     $users = $this->userRepository->getAll($users);
+        DB::beginTransaction();
+        try{
 
-        //     return Response::successResponse($users, 'Users retrieved successfully!');
-        //     //return response()->json($users);
+            return $this->userService->getAll($users);
 
-        // }
-        //     catch(\Exception $e){
-        //     DB::rollBack();
-        // }
+        }
+            catch(\Exception $e){
 
-        // $users = $this->userService->filter($users);
-        // $users = $this->userService->sort($users);
-        // // get users
-        // $users = $this->userRepository->getAll($users);
+            DB::rollBack();
 
-        // return response()->json($users);
+        }
     }
 
     /**

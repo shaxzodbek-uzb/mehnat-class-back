@@ -1,9 +1,24 @@
 <?php
 namespace Mehnat\User\Services;
+
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
+use Mehnat\User\Repositories\UserRepository;
 
 class UserService
 {
+    protected $repo;
+
+    public function __construct() 
+    {
+        $this->repo = new UserRepository();
+    }
+
+    public function getAll(Builder $query) :Collection
+    {
+        return $this->repo->getAll($query);
+    }
+
     public function filter(Builder $query): Builder
     {
         $user_name = request()->get('username', false);
