@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use Response;
-use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Mehnat\User\Entities\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use Mehnat\User\Services\UserService;
-use Mehnat\User\Repositories\UserRepository;
 
 class UserController extends Controller
 {

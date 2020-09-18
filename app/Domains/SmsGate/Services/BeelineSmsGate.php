@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Domains\SmsGate\Services;
 class BeelineSmsGate
 {
     public function sendMessage(string $phone, string $message): json

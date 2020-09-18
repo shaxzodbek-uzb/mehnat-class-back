@@ -14,7 +14,7 @@ class UserRepository
     {
         $this->users = new User;
     }
-    public function get(Builder $query = null): Collection
+    public function getAll(Builder $query = null): Collection
     {
         if ($query)
             return $query->get();
@@ -22,7 +22,7 @@ class UserRepository
             return $this->users->all();
     }
 
-    public function create($model, $input) 
+    public function create($model, $input)
     {
     	try {
 

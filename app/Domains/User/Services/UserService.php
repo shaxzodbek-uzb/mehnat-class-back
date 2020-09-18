@@ -9,15 +9,10 @@ use Mehnat\User\Entities\User;
 class UserService
 {
     private $userRepo;
-    private $users;
 
-    public function __construct() 
+    public function __construct()
     {
-        $this->repo = new UserRepository();
-    }
-    public function getAll(Builder $query) :Collection
-    {
-        return $this->repo->getAll($query);
+        $this->userRepo = new UserRepository();
     }
     public function filter(Builder $query): Builder
     {
@@ -48,7 +43,7 @@ class UserService
                     break;
             }
         }
-        
+
         return $query;
     }
 
@@ -70,7 +65,7 @@ class UserService
         $users = $this->userRepo->getQuery();
         $users = $this->filter($users);
         $users = $this->sort($users);
-        $users = $this->userRepo->get($users);
+        $users = $this->userRepo->getAll($users);
         return $users;
     }
 }
