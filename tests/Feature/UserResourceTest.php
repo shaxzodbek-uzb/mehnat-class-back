@@ -2,13 +2,15 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Support\Str;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Str;
+use Tests\traits\FakerTrait;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserResourceTest extends TestCase
 {
+     use FakerTrait;
     /**
      * A basic feature test example.
      *
@@ -61,13 +63,9 @@ class UserResourceTest extends TestCase
 
     public function testUpdateUser()
     {
-        $response = $this->putJson('api/v1/users/7', [
-            'id' => 7,
-            'username' => 'Marin '.Str::random(3),
-            'fullname' => 'Barin',
-            'password' => bcrypt(123456),
-            'age' => 19
-        ]);
+        $input = $this->fakeUserData();
+
+        $response = $this->putJson('api/v1/users/7', $input);
        
         $response
             ->assertStatus(200)

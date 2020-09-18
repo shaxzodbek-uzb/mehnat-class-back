@@ -29,29 +29,29 @@ class UserController extends Controller
 
     public function index()
     {
-        DB::beginTransaction();
-        try{
+        // DB::beginTransaction();
+        // try{
             
-            $users = $this->usersClass::query();
-            $users = $this->userService->filter($users);
-            $users = $this->userService->sort($users);
-            // get users
-            $users = $this->userRepository->getAll($users);
+        //     $users = $this->usersClass::query();
+        //     $users = $this->userService->filter($users);
+        //     $users = $this->userService->sort($users);
+        //     // get users
+        //     $users = $this->userRepository->getAll($users);
 
-            return Response::successResponse($users, 'Users retrieved successfully!');
-            //return response()->json($users);
+        //     return Response::successResponse($users, 'Users retrieved successfully!');
+        //     //return response()->json($users);
 
-        }
-            catch(\Exception $e){
-            DB::rollBack();
-        }
+        // }
+        //     catch(\Exception $e){
+        //     DB::rollBack();
+        // }
 
-        $users = $this->userService->filter($users);
-        $users = $this->userService->sort($users);
-        // get users
-        $users = $this->userRepository->getAll($users);
+        // $users = $this->userService->filter($users);
+        // $users = $this->userService->sort($users);
+        // // get users
+        // $users = $this->userRepository->getAll($users);
 
-        return response()->json($users);
+        // return response()->json($users);
     }
 
     /**
