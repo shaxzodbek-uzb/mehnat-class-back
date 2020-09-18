@@ -1,4 +1,5 @@
 <?php
+
 namespace Mehnat\User\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +15,8 @@ class UserRepository
     {
         $this->users = new User;
     }
-    public function get(Builder $query = null): Collection
+
+    public function getAll(Builder $query = null): Collection
     {
         if ($query)
             return $query->get();
@@ -22,43 +24,46 @@ class UserRepository
             return $this->users->all();
     }
 
-    public function create($model, $input) 
+    public function create($input)
     {
-    	try {
+        $model = $this->users;
+        try {
 
-    		$model->username = $input['username'];
-    		$model->fullname = $input['fullname'];
-    		$model->age = $input['age'];
-    		$model->password = $input['password'];
+            $model->username = $input['username'];
+            $model->fullname = $input['fullname'];
+            $model->age = $input['age'];
+            $model->password = $input['password'];
 
-    		$model->save();
+            $model->save();
 
-    		return $model;
-    	} catch(\Exception $e) {
-    		return null;
-    	}
+            return $model;
+        } catch (\Exception $e) {
+            return null;
+        }
 
     }
 
     public function getById($query, $id)
     {
-    	return $query->findOrFail($id);
+        return $query->findOrFail($id);
     }
 
-    public function update($model, $input)
+    public function update($input, $id)
     {
-    	return $model->update([
-    		'username' => $input['username'],
-    		'fullname' => $input['fullname'],
-    		'age' => $input['age'],
-    		'password' => $input['password']
-    	]);
+        $model = $this->getById($this->users, $id);
+        return $model->update([
+            'username' => $input['username'],
+            'fullname' => $input['fullname'],
+            'age' => $input['age'],
+            'password' => $input['password']
+        ]);
     }
 
     public function destroy($model, $input)
     {
-    	return$model->delete();
+        return $model->delete();
     }
+
     public function getQuery(): Builder
     {
         return $this->users->query();

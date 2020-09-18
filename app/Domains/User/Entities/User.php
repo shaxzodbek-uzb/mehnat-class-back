@@ -22,9 +22,9 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::addGlobalScope('adult', function (Builder $builder) {
-            $builder->where('age', '>', 17);
-        });
+//        static::addGlobalScope('adult', function (Builder $builder) {
+//            $builder->where('age', '>', 17);
+//        });
 
     }
     /**

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Response;
-use Validator;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Mehnat\User\Entities\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use Mehnat\User\Services\UserService;
-use Mehnat\User\Repositories\UserRepository;
 
 class UserController extends Controller
 {
@@ -35,7 +35,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
@@ -51,14 +51,11 @@ class UserController extends Controller
 
         $validate = Validator::make($input, $rules);
 
-        if($validate->fails()) {
+        if ($validate->fails()) {
             return Response::customResponse(false, $validate->failed(), 'Data not valid!');
         }
-
-        $model = new $this->usersClass;
-        $result = $this->userRepository->create($model, $input);
-
-        if($result) {
+        $result = $this->userService->getCreate($input);
+        if ($result) {
             return Response::customResponse(true, $result, 'Successfully created!');
         }
     }
@@ -66,14 +63,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $user = $this->usersClass::query();
-
-        $result = $this->userRepository->getById($user, $id);
+        $result = $this->userService->getShow($id);
 
         return Response::customResponse(true, $result, 'User retrieved successfully!');
     }
@@ -81,16 +76,16 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $input = $request->all();
 
         $rules = [
-            'username' => 'required|string|unique:users,username,'.$id,
+            'username' => 'required|string|unique:users,username,' . $id,
             'password' => 'required',
             'fullname' => 'required',
             'age' => 'numeric'
@@ -98,15 +93,11 @@ class UserController extends Controller
 
         $validate = Validator::make($input, $rules);
 
-        if($validate->fails()) {
+        if ($validate->fails()) {
             return Response::customResponse(false, $validate->failed(), 'Data not valid!');
         }
-
-        $user = $this->usersClass::query();
-        $user = $this->userRepository->getById($user, $id);
-        $result = $this->userRepository->update($user, $input);
-
-        if($result) {
+        $result = $this->userService->getUpdate($input, $id);
+        if ($result) {
             return Response::customResponse(true, $result, 'User successfully updated!');
         }
     }
@@ -114,7 +105,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -124,7 +115,7 @@ class UserController extends Controller
         $user = $this->userRepository->getById($user, $id);
         $result = $this->userRepository->destroy($user, $id);
 
-        if($result) {
+        if ($result) {
             return Response::customResponse(true, [], 'User deleted!');
         }
     }
