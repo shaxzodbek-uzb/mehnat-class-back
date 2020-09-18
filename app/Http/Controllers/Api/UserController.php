@@ -29,7 +29,8 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->userService->getUsers();
-        return Response::customResponse(true, $users, 'Users retrieved successfully!');
+        
+        return Response::get(true, $users, 'Ok!');
     }
 
     /**
@@ -52,11 +53,11 @@ class UserController extends Controller
         $validate = Validator::make($input, $rules);
 
         if ($validate->fails()) {
-            return Response::customResponse(false, $validate->failed(), 'Data not valid!');
+            return Response::get(false, $validate->failed(), 'Data not valid!');
         }
         $result = $this->userService->getCreate($input);
         if ($result) {
-            return Response::customResponse(true, $result, 'Successfully created!');
+            return Response::get(true, $result, 'Successfully created!');
         }
     }
 
@@ -70,7 +71,7 @@ class UserController extends Controller
     {
         $result = $this->userService->getShow($id);
 
-        return Response::customResponse(true, $result, 'User retrieved successfully!');
+        return Response::get(true, $result, 'User retrieved successfully!');
     }
 
     /**
@@ -82,23 +83,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $input = $request->all();
-
-        $rules = [
-            'username' => 'required|string|unique:users,username,' . $id,
-            'password' => 'required',
-            'fullname' => 'required',
-            'age' => 'numeric'
-        ];
-
-        $validate = Validator::make($input, $rules);
-
-        if ($validate->fails()) {
-            return Response::customResponse(false, $validate->failed(), 'Data not valid!');
-        }
-        $result = $this->userService->getUpdate($input, $id);
+        $result = $this->userService->getUpdate($request, $id);
         if ($result) {
-            return Response::customResponse(true, $result, 'User successfully updated!');
+            return Response::get(true, $result, 'User successfully updated!');
         }
     }
 
@@ -116,7 +103,7 @@ class UserController extends Controller
         $result = $this->userRepository->destroy($user, $id);
 
         if ($result) {
-            return Response::customResponse(true, [], 'User deleted!');
+            return Response::get(true, [], 'User deleted!');
         }
     }
 }

@@ -43,20 +43,16 @@ class UserRepository
 
     }
 
-    public function getById($query, $id)
+    public function getById($query, $id): User
     {
         return $query->findOrFail($id);
     }
 
-    public function update($input, $id)
+    public function update($data, $id): User
     {
         $model = $this->getById($this->users, $id);
-        return $model->update([
-            'username' => $input['username'],
-            'fullname' => $input['fullname'],
-            'age' => $input['age'],
-            'password' => $input['password']
-        ]);
+        $model->update($data);
+        return $model;
     }
 
     public function destroy($model, $input)

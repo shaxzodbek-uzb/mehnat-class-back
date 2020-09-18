@@ -4,6 +4,7 @@ namespace Mehnat\User\Services;
 
 use Mehnat\User\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Collection;
 use Mehnat\User\Entities\User;
 
@@ -87,9 +88,10 @@ class UserService
         return $user;
     }
 
-    public function getUpdate($input, $id)
+    public function getUpdate(UpdateUserRequest $request,int $id):User
     {
-        $user = $this->userRepo->update($input, $id);
+        $data = $request->validated();
+        $user = $this->userRepo->update($data, $id);
         return $user;
     }
 }

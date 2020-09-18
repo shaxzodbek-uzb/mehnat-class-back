@@ -24,10 +24,10 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string|unique:users,username',
-            'password' => 'required',
+            'username' => "required|string|unique:users,username,".request()->id,
             'fullname' => 'required',
-            'age' => 'numeric|max:70'
+            'age' => 'numeric|max:70',
+            'status' => 'nullable|numeric|max:70'
         ];
     }
 }
