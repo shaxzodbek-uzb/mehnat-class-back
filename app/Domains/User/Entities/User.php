@@ -4,7 +4,6 @@ namespace Mehnat\User\Entities;
 
 use Mehnat\Core\Traits\StatusTrait;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

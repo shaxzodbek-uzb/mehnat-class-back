@@ -14,15 +14,11 @@ use Mehnat\User\Repositories\UserRepository;
 class UserController extends Controller
 {
 
-    private $usersClass;
     private $userService;
-    private $userRepository;
 
     public function __construct()
     {
-        $this->usersClass = User::class;
         $this->userService = new UserService;
-        $this->userRepository = new UserRepository;
     }
 
     /**
@@ -32,12 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->usersClass::query();
-        $users = $this->userService->filter($users);
-        $users = $this->userService->sort($users);
-        // get users
-        $users = $this->userRepository->getAll($users);
-        
+        $users = $this->userService->getUsers();
         return Response::customResponse(true, $users, 'Users retrieved successfully!');
     }
 

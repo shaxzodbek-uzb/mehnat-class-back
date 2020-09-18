@@ -1,14 +1,25 @@
 <?php
 namespace Mehnat\User\Repositories;
-use Illuminate\Database\Eloquent\Builder;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Mehnat\User\Entities\User;
+
 
 class UserRepository
 {
-    public function getAll(Builder $query) 
+    private $users;
+
+    public function __construct()
     {
-        return $query->get();
+        $this->users = new User;
+    }
+    public function get(Builder $query = null): Collection
+    {
+        if ($query)
+            return $query->get();
+        else
+            return $this->users->all();
     }
 
     public function create($model, $input) 
@@ -47,5 +58,9 @@ class UserRepository
     public function destroy($model, $input)
     {
     	return$model->delete();
+    }
+    public function getQuery(): Builder
+    {
+        return $this->users->query();
     }
 }
