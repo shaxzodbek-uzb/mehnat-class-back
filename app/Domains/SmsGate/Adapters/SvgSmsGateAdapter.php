@@ -1,4 +1,7 @@
 <?php
+namespace App\Domains\SmsGate\Adapters;
+
+use App\Domains\SmsGate\Interfaces\SmsGateAdapterInterface;
 use App\Domains\SmsGate\Services\BeelineSmsGate;
 
 class SvgSmsAdapterGate implements SmsGateAdapterInterface

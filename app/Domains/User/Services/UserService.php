@@ -1,22 +1,20 @@
 <?php
+
 namespace Mehnat\User\Services;
 
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Builder;
 use Mehnat\User\Repositories\UserRepository;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Support\Collection;
+use Mehnat\User\Entities\User;
 
 class UserService
 {
-    protected $repo;
+    private $userRepo;
 
-    public function __construct() 
+    public function __construct()
     {
-        $this->repo = new UserRepository();
-    }
-
-    public function getAll(Builder $query) :Collection
-    {
-        return $this->repo->getAll($query);
+        $this->userRepo = new UserRepository();
     }
 
     public function filter(Builder $query): Builder
@@ -25,15 +23,15 @@ class UserService
         $age = request()->get('age', false);
         $status = request()->get('status', false);
 
-        if ($user_name){
+        if ($user_name) {
             $query->where('username', 'like', "%$user_name%");
         }
 
-        if ($age){
+        if ($age) {
             $query->where('age', '=', $age);
         }
 
-        if ($status){
+        if ($status) {
             switch ($status) {
                 case 1:
                     $query->active();
@@ -48,21 +46,52 @@ class UserService
                     break;
             }
         }
-        
+
         return $query;
     }
 
-    public function sort($query)
+    public function sort($query): Builder
     {
-        $key = request()->get('sort_key','username');
+        $key = request()->get('sort_key', 'username');
         $order = request()->get('sort_order', 'asc');
         $query->orderBy($key, $order);
 
         return $query;
     }
+
     public function notify($user, string $type)
     {
         $strategy = (new NotificationStrategy)->getStrategy($type);
         $strategy->send();
+    }
+
+    public function getUsers(): Collection
+    {
+        $users = $this->userRepo->getQuery();
+        $users = $this->filter($users);
+        $users = $this->sort($users);
+        $users = $users->orderBy('id', 'desc');
+        $users = $this->userRepo->getAll($users);
+        return $users;
+    }
+
+    public function getShow($id)
+    {
+        $user = $this->userRepo->getQuery();
+        $user = $this->userRepo->getById($user, $id);
+        return $user;
+    }
+
+    public function getCreate($input)
+    {
+        $user = $this->userRepo->create($input);
+        return $user;
+    }
+
+    public function getUpdate(UpdateUserRequest $request,int $id):User
+    {
+        $data = $request->validated();
+        $user = $this->userRepo->update($data, $id);
+        return $user;
     }
 }

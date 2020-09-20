@@ -1,4 +1,6 @@
 <?php
+namespace App\Domains\SmsGate\Interfaces;
+
 interface SmsGateInterface
 {
     public function send(string $phone, string $message): json;

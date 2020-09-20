@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
-use Response;
-use Validator;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Mehnat\User\Entities\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use Mehnat\User\Services\UserService;
-use Mehnat\User\Repositories\UserRepository;
 
 class UserController extends Controller
 {
 
-    private $usersClass;
     private $userService;
-    private $userRepository;
 
     public function __construct()
     {
-        $this->usersClass = User::class;
         $this->userService = new UserService;
-        $this->userRepository = new UserRepository;
     }
 
     /**
@@ -32,19 +28,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->usersClass::query();
-        $users = $this->userService->filter($users);
-        $users = $this->userService->sort($users);
-        // get users
-        $users = $this->userRepository->getAll($users);
+        $users = $this->userService->getUsers();
         
-        return Response::customResponse(true, $users, 'Users retrieved successfully!');
+        return Response::get(true, $users, 'Ok!');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
@@ -60,70 +52,47 @@ class UserController extends Controller
 
         $validate = Validator::make($input, $rules);
 
-        if($validate->fails()) {
-            return Response::customResponse(false, $validate->failed(), 'Data not valid!');
+        if ($validate->fails()) {
+            return Response::get(false, $validate->failed(), 'Data not valid!');
         }
-
-        $model = new $this->usersClass;
-        $result = $this->userRepository->create($model, $input);
-
-        if($result) {
-            return Response::customResponse(true, $result, 'Successfully created!');
+        $result = $this->userService->getCreate($input);
+        if ($result) {
+            return Response::get(true, $result, 'Successfully created!');
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $user = $this->usersClass::query();
+        $result = $this->userService->getShow($id);
 
-        $result = $this->userRepository->getById($user, $id);
-
-        return Response::customResponse(true, $result, 'User retrieved successfully!');
+        return Response::get(true, $result, 'User retrieved successfully!');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        $input = $request->all();
-
-        $rules = [
-            'username' => 'required|string|unique:users,username,'.$id,
-            'password' => 'required',
-            'fullname' => 'required',
-            'age' => 'numeric'
-        ];
-
-        $validate = Validator::make($input, $rules);
-
-        if($validate->fails()) {
-            return Response::customResponse(false, $validate->failed(), 'Data not valid!');
-        }
-
-        $user = $this->usersClass::query();
-        $user = $this->userRepository->getById($user, $id);
-        $result = $this->userRepository->update($user, $input);
-
-        if($result) {
-            return Response::customResponse(true, $result, 'User successfully updated!');
+        $result = $this->userService->getUpdate($request, $id);
+        if ($result) {
+            return Response::get(true, $result, 'User successfully updated!');
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -133,8 +102,8 @@ class UserController extends Controller
         $user = $this->userRepository->getById($user, $id);
         $result = $this->userRepository->destroy($user, $id);
 
-        if($result) {
-            return Response::customResponse(true, [], 'User deleted!');
+        if ($result) {
+            return Response::get(true, [], 'User deleted!');
         }
     }
 }

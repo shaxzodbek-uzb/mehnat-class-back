@@ -7,8 +7,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Mehnat\Core\Interfaces\ResponsibleInterface;
 
-class User extends Authenticatable
+class User extends Authenticatable implements ResponsibleInterface
 {
     use Notifiable;
     use StatusTrait;
@@ -34,7 +35,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username',  'password', 'fullname', 'active', 'age'
+        'username',  'password', 'fullname', 'status', 'age'
     ];
 
     /**
@@ -43,7 +44,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'created_at', 'updated_at'
+        'password', 'remember_token'
     ];
 
     /**
@@ -57,6 +58,15 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+    public function transformer():array
+    {
+        return [
+            'username' => $this->username,
+            'fullname' => $this->fullname,
+            'age' => $this->age,
+            'status' => $this->status,
+        ];
     }
 
 }
