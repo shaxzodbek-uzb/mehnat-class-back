@@ -66,6 +66,9 @@ class User extends Authenticatable implements ResponsibleInterface
             'fullname' => $this->fullname,
             'age' => $this->age,
             'status' => $this->status,
+            'id' => $this->id,
+            'created_at' => $this->created_at,
+            'success' =>true
         ];
     }
 

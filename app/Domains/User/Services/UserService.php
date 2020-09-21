@@ -2,6 +2,7 @@
 
 namespace Mehnat\User\Services;
 
+use App\Http\Requests\UserRequest;
 use Mehnat\User\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\UpdateUserRequest;
@@ -75,16 +76,17 @@ class UserService
         return $users;
     }
 
-    public function getShow($id)
+    public function getShow($id): User
     {
         $user = $this->userRepo->getQuery();
         $user = $this->userRepo->getById($user, $id);
         return $user;
     }
 
-    public function getCreate($input)
+    public function getCreate(UserRequest $request): User
     {
-        $user = $this->userRepo->create($input);
+        $data = $request->validated();
+        $user = $this->userRepo->create($data);
         return $user;
     }
 
@@ -92,6 +94,12 @@ class UserService
     {
         $data = $request->validated();
         $user = $this->userRepo->update($data, $id);
+        return $user;
+    }
+
+    public function getDelete(int $id)
+    {
+        $user = $this->userRepo->destroy($id);
         return $user;
     }
 }

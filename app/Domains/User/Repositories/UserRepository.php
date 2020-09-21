@@ -24,22 +24,17 @@ class UserRepository
             return $this->users->all();
     }
 
-    public function create($input)
+    public function create($data)
     {
         $model = $this->users;
-        try {
+        $model->username = $data['username'];
+        $model->fullname = $data['fullname'];
+        $model->age = $data['age'];
+        $model->status = $data['status'];
+        $model->password = $data['password'];
+        $model->save();
+        return $model;
 
-            $model->username = $input['username'];
-            $model->fullname = $input['fullname'];
-            $model->age = $input['age'];
-            $model->password = $input['password'];
-
-            $model->save();
-
-            return $model;
-        } catch (\Exception $e) {
-            return null;
-        }
 
     }
 
@@ -55,8 +50,10 @@ class UserRepository
         return $model;
     }
 
-    public function destroy($model, $input)
+    public function destroy($id)
     {
+        $model = $this->getById($this->users, $id);
+//        return $model;
         return $model->delete();
     }
 

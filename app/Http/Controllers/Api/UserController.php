@@ -29,7 +29,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->userService->getUsers();
-        
+
         return Response::get(true, $users, 'Ok!');
     }
 
@@ -37,25 +37,12 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return UserRequest|Request|\Illuminate\Http\Response
      */
     public function store(UserRequest $request)
     {
-        $input = $request->all();
-
-        $rules = [
-            'username' => 'required|string|unique:users,username',
-            'password' => 'required',
-            'fullname' => 'required',
-            'age' => 'numeric'
-        ];
-
-        $validate = Validator::make($input, $rules);
-
-        if ($validate->fails()) {
-            return Response::get(false, $validate->failed(), 'Data not valid!');
-        }
-        $result = $this->userService->getCreate($input);
+//        return $request;
+        $result = $this->userService->getCreate($request);
         if ($result) {
             return Response::get(true, $result, 'Successfully created!');
         }
@@ -65,12 +52,11 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function show($id)
+    public function show(int $id)
     {
         $result = $this->userService->getShow($id);
-
         return Response::get(true, $result, 'User retrieved successfully!');
     }
 
@@ -79,9 +65,9 @@ class UserController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, int $id)
     {
         $result = $this->userService->getUpdate($request, $id);
         if ($result) {
@@ -93,17 +79,17 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(int  $id)
     {
-        $user = $this->usersClass::query();
-
-        $user = $this->userRepository->getById($user, $id);
-        $result = $this->userRepository->destroy($user, $id);
-
+        $result = $this->userService->getDelete($id);
         if ($result) {
-            return Response::get(true, [], 'User deleted!');
+//            return Response::get(true, [], 'User deleted!');
+            return [
+                'success' => true,
+                'message' => "User deleted!"
+            ];
         }
     }
 }
