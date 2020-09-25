@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $users = $this->userService->getUsers();
         
-        return Response::get(true, $users, 'Ok!');
+        return Response::get(true, $users, 'Ok!', 'articles');
     }
 
     /**
