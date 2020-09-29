@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class UserRequest extends FormRequest
 {
@@ -25,9 +26,10 @@ class UserRequest extends FormRequest
     {
         return [
             'username' => 'required|string|unique:users,username',
-            'password' => 'required',
             'fullname' => 'required',
-            'age' => 'numeric|max:70'
+            'age' => 'numeric|max:70',
+            'status' => 'nullable|numeric|max:70',
+            'password' => 'nullable'
         ];
     }
 }

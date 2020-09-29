@@ -206,6 +206,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="587" y="182" key="NewPhpClassDialog" timestamp="1599767029284">
