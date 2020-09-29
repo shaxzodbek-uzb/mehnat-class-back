@@ -4,20 +4,26 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Mehnat\User\Entities\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use Mehnat\User\Services\UserService;
+use Mehnat\User\Transformers\UserTransformer;
+use League\Fractal;
+use League\Fractal\Manager;
 
 class UserController extends Controller
 {
 
     private $userService;
+    private $manager;
+    private $userTransformer;
 
     public function __construct()
     {
+        $this->manager = new Manager;
+        $this->userTransformer = new UserTransformer;
         $this->userService = new UserService;
     }
 
@@ -29,6 +35,8 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->userService->getUsers();
+        $resource = new Fractal\Resource\Collection($users, $this->userTransformer);
+        dd($this->manager->createData($resource)->toArray());
         
         return Response::get(true, $users, 'Ok!');
     }
