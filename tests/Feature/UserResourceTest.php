@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use Tests\traits\FakerTrait;
+use Mehnat\User\Entities\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -56,7 +57,7 @@ class UserResourceTest extends TestCase
         $response = $this->json('GET', 'api/v1/users/7');
 
         $response
-            ->assertStatus(200)
+            ->assertStatus(200)            
             ->assertJson([
                 'success' => true,
             ]);

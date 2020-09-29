@@ -3,10 +3,9 @@
 namespace Database\Factories;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-
-use Mehnat\User\Entities\User;
-use Faker\Generator as Faker;
 use Illuminate\Support\Str;
+use Faker\Generator as Faker;
+use Mehnat\User\Entities\User;
 
 /*
 |--------------------------------------------------------------------------
