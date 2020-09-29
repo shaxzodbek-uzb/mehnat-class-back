@@ -55,6 +55,17 @@ class User extends Authenticatable implements ResponsibleInterface
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
+    }
+
+    public function articles()
+    {
+        return $this->hasMany('App\Models\Article');
+    }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
@@ -62,11 +73,13 @@ class User extends Authenticatable implements ResponsibleInterface
     public function transformer():array
     {
         return [
+            'id' => $this->id,
             'username' => $this->username,
             'fullname' => $this->fullname,
             'age' => $this->age,
             'status' => $this->status,
-            'id' => $this->id,
+            'articles' => $this->articles->load('comments'),
+            'comments' => $this->comments
             'created_at' => $this->created_at,
             'success' =>true
         ];

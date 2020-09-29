@@ -25,7 +25,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try{
 
-            return $this->userService->getAll($users);
+            $users = $this->userService->getUsers();
 
         }
             catch(\Exception $e){

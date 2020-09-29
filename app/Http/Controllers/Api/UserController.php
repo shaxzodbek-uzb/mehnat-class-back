@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Mehnat\User\Entities\User;
-use App\Http\Requests\UserRequest;
-use App\Http\Controllers\Controller;
 use Mehnat\User\Services\UserService;
+
 
 class UserController extends Controller
 {
@@ -29,8 +30,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->userService->getUsers();
-
-        return Response::get(true, $users, 'Ok!');
+        return Response::get(true, $users, 'Ok!', 'articles');
     }
 
     /**
@@ -41,7 +41,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-//        return $request;
         $result = $this->userService->getCreate($request);
         if ($result) {
             return Response::get(true, $result, 'Successfully created!');
@@ -85,7 +84,6 @@ class UserController extends Controller
     {
         $result = $this->userService->getDelete($id);
         if ($result) {
-//            return Response::get(true, [], 'User deleted!');
             return [
                 'success' => true,
                 'message' => "User deleted!"
