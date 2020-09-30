@@ -7,9 +7,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Mehnat\Core\Interfaces\ResponsibleInterface;
 
-class User extends Authenticatable implements ResponsibleInterface
+class User extends Authenticatable
 {
     use Notifiable;
     use StatusTrait;
@@ -58,31 +57,17 @@ class User extends Authenticatable implements ResponsibleInterface
 
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment');
+        return $this->hasMany(\Mehnat\Comment\Entities\Comment::class);
     }
 
     public function articles()
     {
-        return $this->hasMany('App\Models\Article');
+        return $this->hasMany(\Mehnat\Article\Entities\Article::class);
     }
 
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
-    }
-    public function transformer():array
-    {
-        return [
-            'id' => $this->id,
-            'username' => $this->username,
-            'fullname' => $this->fullname,
-            'age' => $this->age,
-            'status' => $this->status,
-            'articles' => $this->articles->load('comments'),
-            'comments' => $this->comments
-            'created_at' => $this->created_at,
-            'success' =>true
-        ];
     }
 
 }

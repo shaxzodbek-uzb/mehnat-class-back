@@ -24,6 +24,9 @@ class UserController extends Controller
     public function __construct()
     {
         $this->manager = new Manager;
+        if (isset($_GET['include'])) {
+            $this->manager->parseIncludes(request()->get('include'));
+        }
         $this->userTransformer = new UserTransformer;
         $this->userService = new UserService;
     }
@@ -37,9 +40,7 @@ class UserController extends Controller
     {
         $users = $this->userService->getUsers();
         $resource = new Fractal\Resource\Collection($users, $this->userTransformer);
-        dd($this->manager->createData($resource)->toArray());
-        
-        return Response::get(true, $users, 'Ok!');
+        return response()->json($this->manager->createData($resource)->toArray());
     }
 
     /**
