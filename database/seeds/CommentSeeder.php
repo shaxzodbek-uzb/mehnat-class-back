@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Comment;
+use Mehnat\Comment\Entities\Comment;
 use Illuminate\Database\Seeder;
 
 class CommentSeeder extends Seeder

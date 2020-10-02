@@ -34,7 +34,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -66,7 +66,8 @@ class UserController extends Controller
     public function show(int $id)
     {
         $result = $this->userService->getShow($id);
-        return Response::get(true, $result, 'User retrieved successfully!');
+        $resource = new Fractal\Resource\Item($result, $this->userTransformer);
+        return response()->json($this->manager->createData($resource)->toArray());
     }
 
     /**

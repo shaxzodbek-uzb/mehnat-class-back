@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use DB;
-use App\Models\Comment;
+use Mehnat\Comment\Entities\Comment;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;

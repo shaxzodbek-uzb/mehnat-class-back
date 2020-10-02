@@ -72,13 +72,14 @@ class UserService
         $users = $this->filter($users);
         $users = $this->sort($users);
         $users = $users->orderBy('id', 'desc');
-        $users = $this->userRepo->getAll($users->with(request()->get('include')));
+        $users = $this->userRepo->getAll($users->with(request('include')));
         return $users;
     }
 
     public function getShow($id): User
     {
         $user = $this->userRepo->getQuery();
+        $user = $user->with(request('include'));
         $user = $this->userRepo->getById($user, $id);
         return $user;
     }

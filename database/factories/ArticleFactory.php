@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use DB;
-use App\Models\Article;
+use Mehnat\Article\Entities\Article;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
