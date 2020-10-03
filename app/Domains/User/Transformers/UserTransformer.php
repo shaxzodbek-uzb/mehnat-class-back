@@ -18,7 +18,7 @@ class UserTransformer extends Fractal\TransformerAbstract
             'id'      => (int) $user->id,
             'username'   => $user->username,
             'fullname'   => $user->fullname,
-            'age'    => $user->age,
+            'birth_date'    => $user->birth_date,
         ];
     }
     public function includeComments(User $user)

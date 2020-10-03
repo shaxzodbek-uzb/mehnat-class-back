@@ -7,11 +7,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use StatusTrait;
+    use    LaravelEntrustUserTrait;
 
     /**
      * The "booted" method of the model.
@@ -23,10 +25,6 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::addGlobalScope('adult', function (Builder $builder) {
-            $builder->where('age', '>', 17);
-        });
-
     }
     /**
      * The attributes that are mass assignable.
@@ -34,7 +32,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username',  'password', 'fullname', 'status', 'age'
+        'username',  'password', 'fullname', 'status', 'birth_date', 'gender', 'phone', 'avatar'. 'background_img'
     ];
 
     /**
@@ -70,4 +68,8 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }
