@@ -14,6 +14,8 @@ class CommentTransformer extends Fractal\TransformerAbstract
 	{
 	    return [
             'id'      => (int) $comment->id,
+            'user_id' => (int) $comment->user_id,
+            'article_id' => (int) $comment->article_id,
             'text'      => $comment->text,
         ];
     }

@@ -16,9 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->singleton('App\Domains\SmsGate\Interfaces\SmsGateAdapterInterface', function ($app) {
-        //     return new \App\Domains\SmsGate\Adapters\UcellSmsGate;
-        // });
+        if ($this->app->isLocal()) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }   
     }
 
     /**
