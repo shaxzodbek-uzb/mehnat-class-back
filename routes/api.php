@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api', 'middleware' => 'cors'], function () {
-	
+
     Route::apiResource('users', 'UserController');
+    Route::apiResource('comments', 'CommentController');
 });

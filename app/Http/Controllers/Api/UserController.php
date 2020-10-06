@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Mehnat\User\Entities\User;
 use Mehnat\User\Services\UserService;
 use Mehnat\User\Transformers\UserTransformer;
 use League\Fractal;
