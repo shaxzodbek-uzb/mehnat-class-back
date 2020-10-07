@@ -1,39 +1,88 @@
 <?php
 
+namespace Mehnat\Comment\Services;
 
-namespace App\Domains\Comment\Services;
-
-
-use App\Domains\Comment\Repositories\CommentRepository;
-use App\Http\Requests\CommentRequest\StoreRequest;
+use App\Http\Requests\UserRequest;
+use Mehnat\Comment\Repositories\CommentRepository;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\CommentRequest;
+use Illuminate\Support\Collection;
 use Mehnat\Comment\Entities\Comment;
 
 class CommentService
 {
-    private $repo;
+    private $commentRepo;
+
     public function __construct()
     {
-        $this->repo = new CommentRepository();
+        $this->commentRepo = new CommentRepository();
     }
 
-    public function getComments()
+    public function filter(Builder $query): Builder
     {
-        $comment = $this->repo->query();
-        $comment = $comment->orderBy('id', 'desc');
-        $comment = $this->repo->getAll($comment->with(request()->get('include', null)));
+        $user_id = request()->get('user_id', false);
+        $article_id = request()->get('article_id', false);
+
+        if ($user_id) {
+            $query->where('user_id', 'like', "%$user_id%");
+        }
+
+        if ($article_id) {
+            $query->where('article_id', 'like', "%$article_id%");
+        }
+
+        return $query;
+    }
+
+    public function sort($query): Builder
+    {
+        $key = request()->get('sort_key', 'user_id');
+        $order = request()->get('sort_order', 'asc');
+        $query->orderBy($key, $order);
+
+        return $query;
+    }
+
+    public function notify($user, string $type)
+    {
+        $strategy = (new NotificationStrategy)->getStrategy($type);
+        $strategy->send();
+    }
+
+    public function all(): Collection
+    {
+        $comments = $this->commentRepo->getQuery();
+        $comments = $this->filter($comments);
+        $comments = $this->sort($comments);
+        $comments = $comments->orderBy('id', 'desc');
+        $comments = $this->commentRepo->getAll();
+        return $comments;
+    }
+
+    public function show($id): Comment
+    {
+        $comment = $this->commentRepo->getQuery();
+        $comment = $this->commentRepo->getById($comment, $id);
         return $comment;
     }
 
-    public function createService(StoreRequest $request): Comment
+    public function create(CommentRequest\StoreRequest $request): Comment
     {
         $data = $request->validated();
-        $comment = $this->repo->store($data);
+        $comment = $this->commentRepo->create($data);
         return $comment;
     }
 
-    public function delete($id)
+    public function update(CommentRequest\StoreRequest $request,int $id): Comment
     {
-        $result = $this->repo->delete($id);
-        return $result;
+        $data = $request->validated();
+        $comment = $this->commentRepo->update($data, $id);
+        return $comment;
+    }
+
+    public function delete(int $id)
+    {
+        $comment = $this->commentRepo->destroy($id);
+        return $comment;
     }
 }
