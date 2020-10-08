@@ -18,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api'], function () {
 
 
-    Route::post('login', 'AuthController@login')->name('login');
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::get('getInfo', 'AuthController@getInfo');
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('logout', 'AuthController@logout');
         Route::apiResource('users', 'UserController');
         Route::apiResource('comments', 'CommentController');
     });
