@@ -9,6 +9,14 @@ composer install
 ```
 cp .env.example .env
 ```
+
+### add to environment file laravel passport configuration
+```
+PASSPORT_LOGIN_ENDPOINT=http://base_URL/oauth/token
+PASSPORT_CLIENT_ID=2
+PASSPORT_CLIENT_SECRET=
+```
+
 ### Customize configuration
 
 See [Configuration Reference](https://laravel.com/docs/7.x/configuration/).

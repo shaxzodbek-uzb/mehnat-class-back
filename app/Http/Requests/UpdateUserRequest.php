@@ -26,8 +26,12 @@ class UpdateUserRequest extends FormRequest
         return [
             'username' => "required|string|unique:users,username,".request()->id,
             'fullname' => 'required',
-            'age' => 'numeric|max:70',
-            'status' => 'nullable|numeric|max:70'
+            'birth_date' => 'required',
+            'status' => 'nullable',
+            'gender' => 'nullable',
+            'phone' => 'nullable',
+            'avatar' => 'nullable',
+            'background_img' => 'nullable'
         ];
     }
 }

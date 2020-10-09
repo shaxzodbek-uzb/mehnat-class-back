@@ -17,4 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('getJson', 'ResourceController@getJson')->name('getJson');
 Route::resource('users', 'UserController');

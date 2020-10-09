@@ -18,6 +18,6 @@ class Article extends Model
 
     public function user()
     {
-        return $this->belongsTo(Mehnat\User\Entities\User::class);
+        return $this->belongsTo(\Mehnat\User\Entities\User::class);
     }
 }

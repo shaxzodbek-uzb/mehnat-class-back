@@ -66,14 +66,14 @@ class CommentService
         return $comment;
     }
 
-    public function create(CommentRequest $request): Comment
+    public function create(CommentRequest\StoreRequest $request): Comment
     {
         $data = $request->validated();
         $comment = $this->commentRepo->create($data);
         return $comment;
     }
 
-    public function update(CommentRequest $request,int $id): Comment
+    public function update(CommentRequest\StoreRequest $request,int $id): Comment
     {
         $data = $request->validated();
         $comment = $this->commentRepo->update($data, $id);

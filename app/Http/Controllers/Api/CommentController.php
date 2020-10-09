@@ -7,7 +7,6 @@ use League\Fractal\Manager;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
-use Illuminate\Support\Facades\Response;
 use Mehnat\Comment\Services\CommentService;
 use Mehnat\Comment\Transformers\CommentTransformer;
 
@@ -18,7 +17,7 @@ class CommentController extends Controller
     private $commentTransformer;
 
     public function __construct()
-    {       
+    {
         $this->manager = new Manager;
         $this->commentService = new CommentService;
         $this->commentTransformer = new CommentTransformer;
@@ -31,27 +30,31 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $comments = $this->commentService->all();
         $resource = new Fractal\Resource\Collection($comments, $this->commentTransformer);
-        return response()->json($this->manager->createData($resource)->toArray());  
+        return response()->json($this->manager->createData($resource)->toArray());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function store(CommentRequest $request)
+    public function store(CommentRequest\StoreRequest $request)
     {
         $result = $this->commentService->create($request);
         if ($result) {
             $resource = new Fractal\Resource\Item($result, $this->commentTransformer);
-            return response()->json($this->manager->createData($resource)->toArray());
+//            return response()->json($this->manager->createData($resource)->toArray());
+            return [
+                'success' => true,
+                'result' => $result
+            ];
         }
     }
 
@@ -59,7 +62,7 @@ class CommentController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -84,7 +87,7 @@ class CommentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function destroy($id)
     {

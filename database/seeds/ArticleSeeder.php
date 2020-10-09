@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Article;
+use Mehnat\Article\Entities\Article;
 use Illuminate\Database\Seeder;
 
 class ArticleSeeder extends Seeder
