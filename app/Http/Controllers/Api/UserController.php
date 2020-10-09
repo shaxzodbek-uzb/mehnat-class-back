@@ -73,13 +73,16 @@ class UserController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateUserRequest $request, int $id)
     {
         $result = $this->userService->getUpdate($request, $id);
         if ($result) {
-            return Response::get(true, $result, 'User successfully updated!');
+            return response()->json([
+                'success' => true,
+                'result' => $result
+            ]);
         }
     }
 

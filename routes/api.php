@@ -21,6 +21,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api'], function 
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::get('getInfo', 'AuthController@getInfo');
+
     Route::group(['middleware' => 'auth:api'], function () {
         Route::apiResource('users', 'UserController');
         Route::apiResource('comments', 'CommentController');
