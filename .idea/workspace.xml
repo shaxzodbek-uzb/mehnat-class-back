@@ -20,21 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ee58e93-53cd-40de-8d96-dc6132c5bfd9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/mehnat-class-back.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mehnat-class-back.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Domains/User/Repositories/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/User/Repositories/UserRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Domains/User/Services/UserService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/User/Services/UserService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/ExampleDatabaseTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/ExampleDatabaseTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/ExampleTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/ExampleTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/UserResourceTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/UserResourceTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -157,10 +153,11 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/cli-parser" />
       <path value="$PROJECT_DIR$/vendor/sebastian/complexity" />
       <path value="$PROJECT_DIR$/vendor/sebastian/lines-of-code" />
-      <path value="$PROJECT_DIR$/vendor/php-webdriver/webdriver" />
       <path value="$PROJECT_DIR$/vendor/psr/http-client" />
-      <path value="$PROJECT_DIR$/vendor/laravel/dusk" />
       <path value="$PROJECT_DIR$/vendor/laravel/legacy-factories" />
+      <path value="$PROJECT_DIR$/vendor/league/fractal" />
+      <path value="$PROJECT_DIR$/vendor/shanmuga/laravel-entrust" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
     </include_path>
   </component>
   <component name="ProjectId" id="1hKewDfxfIrcdvrcFHi0XlD85lh" />
@@ -190,6 +187,9 @@
       <option name="presentableId" value="Default" />
       <updated>1599764447810</updated>
       <workItem from="1599764449339" duration="3739000" />
+      <workItem from="1601659509534" duration="829000" />
+      <workItem from="1601660642004" duration="1858000" />
+      <workItem from="1605200283936" duration="558000" />
     </task>
     <servers />
   </component>
