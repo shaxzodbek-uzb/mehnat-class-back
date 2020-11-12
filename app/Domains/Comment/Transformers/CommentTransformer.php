@@ -17,10 +17,11 @@ class CommentTransformer extends Fractal\TransformerAbstract
 	    return [
             'id'      => (int) $comment->id,
             'text'    => $comment->text,
-            'user'    => $comment->user
+            'user'    => $comment->user,
+            'article_id' => (int) $comment->article_id,
         ];
     }
-    
+
     public function includeArticles(Comment $comment)
     {
         return $this->item($comment->article, new ArticleTransformer);

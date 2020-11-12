@@ -2,16 +2,15 @@
 
 namespace Mehnat\User\Entities;
 
+use Laravel\Passport\HasApiTokens;
 use Mehnat\Core\Traits\StatusTrait;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Shanmuga\LaravelEntrust\Traits\LaravelEntrustUserTrait;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
     use StatusTrait;
     use    LaravelEntrustUserTrait;
 
@@ -32,9 +31,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username',  'password', 'fullname', 'status', 'birth_date', 'gender', 'phone', 'avatar'. 'background_img'
+        'username',  'password', 'fullname', 'status', 'birth_date', 'gender', 'phone', 'avatar', 'background_img'
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
