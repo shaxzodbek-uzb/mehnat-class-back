@@ -24,9 +24,11 @@ $factory->define(User::class, function (Faker $faker) {
         'password' => bcrypt(123456),
         'remember_token' => Str::random(10),
         'fullname' => $faker->firstName . ' ' . $faker->lastName,
-        'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'phone' => $faker->phoneNumber,
-        'gender' => $faker->numberBetween($min = 1, $max = 2)
+        'age' => 1,
+        'status' => 1,
+        // 'birth_date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        // 'phone' => $faker->phoneNumber,
+        // 'gender' => $faker->numberBetween($min = 1, $max = 2)
     ];
 });
 

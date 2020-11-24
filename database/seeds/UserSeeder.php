@@ -15,19 +15,28 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $role = [
+        $roles = [
             ['name' => 'admin', 'display_name' => 'Admin', 'description' => 'Admin'],
             ['name' => 'user', 'display_name' => 'User', 'description' => 'User']
         ];
-        DB::table('roles')->insert($role);
-        $role = Role::where('name', 'admin')->first();
-        $user = new User;
-        $user->username = 'admin';
-        $user->password = '123456';
-        $user->fullname = 'Aдмин';
-        $user->save();
-        $user->attachRole($role);
+        foreach($roles as $role){
+            Role::updateOrCreate(
+                ['name' => $role['name']],
+                [
+                    'display_name' => $role['display_name'],
+                    'description' => $role['description']
+                ]
+                );
+        }
+        // $role = Role::where('name', 'admin')->first();
+        // $user = new User;
+        // $user->username = 'admin';
+        // $user->password = '123456';
+        // $user->fullname = 'Aдмин';
+        // $user->age = 0;
+        // $user->save();
+        // $user->attachRole($role);
 
-        factory(User::class, 20)->create();
+        // factory(User::class, 20)->create();
     }
 }
