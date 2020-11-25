@@ -8,7 +8,6 @@ class AuthRepository
     public function getToken($request)
     {
         $http = new \GuzzleHttp\Client;
-
         try {
             $response = $http->post(config('services.passport.login_endpoint'), [
                 'form_params' => [
@@ -16,7 +15,8 @@ class AuthRepository
                     'client_id' => config('services.passport.client_id'),
                     'client_secret' => config('services.passport.client_secret'),
                     'username' => $request->username,
-                    'password' => $request->password
+                    'password' => $request->password,
+                    'scope' => ''
                 ]
             ]);
             return json_decode((string) $response->getBody(), true);
