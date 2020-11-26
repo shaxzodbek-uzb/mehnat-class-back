@@ -31,9 +31,9 @@ return [
     ],
 
     'passport' => [
-        'login_endpoint' => env('PASSPORT_LOGIN_ENDPOINT'),
-        'client_id' => env('PASSPORT_CLIENT_ID'),
-        'client_secret' => env('PASSPORT_CLIENT_SECRET')
+        'login_endpoint' => env('PASSPORT_LOGIN_ENDPOINT', 'http://manage.mehnat.test/oauth/token'),
+        'client_id' => env('PASSPORT_CLIENT_ID', 10),
+        'client_secret' => env('PASSPORT_CLIENT_SECRET', '9rouBzoIBA6abNjalY7RZjyys8jV5f7nsUTKN3I7')
     ]
 
 ];

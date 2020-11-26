@@ -38,6 +38,5 @@ class AuthController extends Controller
             'role' => Auth::user()->roles ? Auth::user()->roles : null,
             'token_type' => 'bearer',
         ];
-
     }
 }
