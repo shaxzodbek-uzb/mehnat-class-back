@@ -27,8 +27,10 @@ class UserRequest extends FormRequest
         return [
             'username' => 'required|string|unique:users,username',
             'fullname' => 'required',
-            'age' => 'numeric|max:70',
-            'status' => 'nullable|numeric|max:70',
+            'birth_date' => 'required',
+            'gender' => 'required',
+            'phone' => 'nullable',
+            'status' => 'nullable',
             'password' => 'nullable'
         ];
     }

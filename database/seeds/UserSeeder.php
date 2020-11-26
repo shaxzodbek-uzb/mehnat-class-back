@@ -28,15 +28,14 @@ class UserSeeder extends Seeder
                 ]
                 );
         }
-        // $role = Role::where('name', 'admin')->first();
-        // $user = new User;
-        // $user->username = 'admin';
-        // $user->password = '123456';
-        // $user->fullname = 'Aдмин';
-        // $user->age = 0;
-        // $user->save();
-        // $user->attachRole($role);
+         $role = Role::where('name', 'admin')->first();
+         $user = new User;
+         $user->username = 'admin';
+         $user->password = '123456';
+         $user->fullname = 'Aдмин';
+         $user->save();
+         $user->attachRole($role);
 
-        // factory(User::class, 20)->create();
+//         factory(User::class, 20)->create();
     }
 }
