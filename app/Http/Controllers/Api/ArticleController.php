@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ArticleRequest\StoreRequest;
+use Illuminate\Http\Request;
+use League\Fractal\Manager;
+use Mehnat\Comment\Services\CommentService;
+use Mehnat\Comment\Transformers\CommentTransformer;
+
+class ArticleController extends Controller
+{
+    private $manager;
+    private $articleService;
+    private $commentTransformer;
+
+    public function __construct()
+    {
+        $this->manager = new Manager;
+        $this->articleService = new CommentService;
+        $this->commentTransformer = new CommentTransformer;
+
+        if (isset($_GET['include'])) {
+            $this->manager->parseIncludes(request()->get('include'));
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $comments = $this->articleService->all();
+        $resource = new Fractal\Resource\Collection($comments, $this->commentTransformer);
+        return response()->json($this->manager->createData($resource)->toArray());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function store(StoreRequest $request)
+    {
+        $result = $this->articleService->create($request);
+        if ($result) {
+            $resource = new Fractal\Resource\Item($result, $this->commentTransformer);
+            return [
+                'success' => true,
+                'result' => $resource
+            ];
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        $comment = $this->articleService->show($id);
+        $resource = new Fractal\Resource\Item($comment, $this->commentTransformer);
+        return response()->json($this->manager->createData($resource)->toArray());
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return array
+     */
+    public function destroy($id)
+    {
+        $result = $this->articleService->delete($id);
+        if ($result) {
+            return [
+                'success' => true,
+                'message' => "Comment deleted!"
+            ];
+        }
+    }
+}
