@@ -3,13 +3,12 @@
 namespace App\Domains\User\Repositories;
 
 
-use GuzzleHttp\Client;
-
 class AuthRepository
 {
     public function getToken($request)
     {
-        $http = new Client();
+        $http = new \GuzzleHttp\Client;
+
         try {
             $response = $http->post(config('services.passport.login_endpoint'), [
                 'form_params' => [

@@ -17,12 +17,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api'], function () {
 
+
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::get('getInfo', 'AuthController@getInfo');
+
     Route::apiResource('users', 'UserController');
-    
     Route::group(['middleware' => 'auth:api'], function () {
         Route::apiResource('comments', 'CommentController');
+        Route::apiResource('articles', 'ArticleController');
     });
 });

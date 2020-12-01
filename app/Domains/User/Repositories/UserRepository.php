@@ -29,13 +29,13 @@ class UserRepository
         $model = $this->users;
         $model->username = $data['username'];
         $model->fullname = $data['fullname'];
+        $model->age = $data['age'];
         $model->status = $data['status'];
-        $model->birth_date = $data['birth_date'];
-        $model->phone = $data['phone'];
         $model->password = $data['password'];
-        $model->gender = $data['gender'];
         $model->save();
         return $model;
+
+
     }
 
     public function getById($query, $id): User
@@ -53,6 +53,7 @@ class UserRepository
     public function destroy($id)
     {
         $model = $this->getById($this->users, $id);
+//        return $model;
         return $model->delete();
     }
 

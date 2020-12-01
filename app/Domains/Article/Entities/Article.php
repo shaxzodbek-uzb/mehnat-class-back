@@ -9,6 +9,13 @@ class Article extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'text',
+        'alias'
+
+    ];
+
     public $table = 'articles';
 
     public function comments()

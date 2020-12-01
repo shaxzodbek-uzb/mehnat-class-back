@@ -17,9 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/callback', function () {
-    return 'callback';
-});
-
 Route::get('getJson', 'ResourceController@getJson')->name('getJson');
 Route::resource('users', 'UserController');

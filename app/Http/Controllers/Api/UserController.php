@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Mehnat\User\Services\UserService;
 use Mehnat\User\Transformers\UserTransformer;
 use League\Fractal;
@@ -46,14 +45,13 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return UserRequest|Request|\Illuminate\Http\Response
      */
     public function store(UserRequest $request)
     {
         $result = $this->userService->getCreate($request);
         if ($result) {
-            $resource = new Fractal\Resource\Item($result, $this->userTransformer);
-            return response()->json($this->manager->createData($resource)->toArray());
+            return Response::get(true, $result, 'Successfully created!');
         }
     }
 
