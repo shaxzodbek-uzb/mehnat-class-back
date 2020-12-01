@@ -66,11 +66,9 @@ class CommentService
         return $comment;
     }
 
-    public function create(CommentRequest\StoreRequest $request): Comment
+    public function create(array $params): array
     {
-        $data = $request->validated();
-        $comment = $this->commentRepo->create($data);
-        return $comment;
+        return $this->repo->create($params);
     }
 
     public function update(CommentRequest\StoreRequest $request,int $id): Comment

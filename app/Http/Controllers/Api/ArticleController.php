@@ -14,10 +14,10 @@ class ArticleController extends Controller
     private $articleService;
     private $articleTransformer;
 
-    public function __construct()
+    public function __construct(ArticleService $service)
     {
         $this->manager = new Manager;
-        $this->articleService = new ArticleService;
+        $this->articleService = $service; //app()->make(ArticleService::class);
         $this->articleTransformer = new ArticleTransformer;
 
         if (isset($_GET['include'])) {

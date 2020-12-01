@@ -13,25 +13,23 @@ use Mehnat\Article\Entities\Article;
 class ArticleService
 {
     private $repo;
+    protected $filter_fields = ['user_id'=> ['type' => 'number'], 'article_id' => ['type' => 'string', 'exact' => false]];
 
-    public function __construct()
+    public function __construct(ArticleRepository $repo)
     {
-        $this->repo = new ArticleRepository;
+        $this->repo = $repo;
     }
 
     public function filter(Builder $query): Builder
     {
-        $user_id = request()->get('user_id', false);
-        $alias = request()->get('article_id', false);
-
-        if ($user_id) {
-            $query->where('user_id', 'like', "%$user_id%");
+        foreach($filter_fields as $key => $item){
+            if($request->$key){
+                if($item['type'] == 'string')
+                    $query->where($key, 'like', "%$request->$key%");
+                if($item['type'] == 'number')
+                    $query->where($key, $request->$key);
+            }
         }
-
-        if ($alias) {
-            $query->where('article_id', 'like', "%$alias%");
-        }
-
         return $query;
     }
 
