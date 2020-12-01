@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Domains\Article\Services\ArticleService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest\StoreRequest;
-use Illuminate\Http\Request;
+use Mehnat\Article\Transformers\ArticleTransformer;
+use League\Fractal;
 use League\Fractal\Manager;
-use Mehnat\Comment\Services\CommentService;
-use Mehnat\Comment\Transformers\CommentTransformer;
-
 class ArticleController extends Controller
 {
     private $manager;
     private $articleService;
-    private $commentTransformer;
+    private $articleTransformer;
 
     public function __construct()
     {
         $this->manager = new Manager;
-        $this->articleService = new CommentService;
-        $this->commentTransformer = new CommentTransformer;
+        $this->articleService = new ArticleService;
+        $this->articleTransformer = new ArticleTransformer;
 
         if (isset($_GET['include'])) {
             $this->manager->parseIncludes(request()->get('include'));
@@ -33,8 +32,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $comments = $this->articleService->all();
-        $resource = new Fractal\Resource\Collection($comments, $this->commentTransformer);
+        $articles = $this->articleService->all();
+        $resource = new Fractal\Resource\Collection($articles, $this->articleTransformer);
         return response()->json($this->manager->createData($resource)->toArray());
     }
 
@@ -48,10 +47,9 @@ class ArticleController extends Controller
     {
         $result = $this->articleService->create($request);
         if ($result) {
-            $resource = new Fractal\Resource\Item($result, $this->commentTransformer);
             return [
                 'success' => true,
-                'result' => $resource
+                'result' => $result
             ];
         }
     }
@@ -64,8 +62,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $comment = $this->articleService->show($id);
-        $resource = new Fractal\Resource\Item($comment, $this->commentTransformer);
+        $article = $this->articleService->show($id);
+        $resource = new Fractal\Resource\Item($article, $this->articleTransformer);
         return response()->json($this->manager->createData($resource)->toArray());
     }
 
@@ -74,11 +72,17 @@ class ArticleController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function update(Request $request, $id)
+    public function update(StoreRequest $request, $id)
     {
-        //
+        $result = $this->articleService->update($request, $id);
+        if ($result) {
+            return [
+                'success' => true,
+                'result' => $result
+            ];
+        }
     }
 
     /**
@@ -93,7 +97,7 @@ class ArticleController extends Controller
         if ($result) {
             return [
                 'success' => true,
-                'message' => "Comment deleted!"
+                'message' => "Article deleted!"
             ];
         }
     }

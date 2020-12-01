@@ -44,12 +44,6 @@ class ArticleService
         return $query;
     }
 
-    public function notify($user, string $type)
-    {
-        $strategy = (new NotificationStrategy)->getStrategy($type);
-        $strategy->send();
-    }
-
     public function all(): Collection
     {
         $articles = $this->repo->getQuery();
@@ -74,7 +68,7 @@ class ArticleService
         return $article;
     }
 
-    public function update(StoreRequest $request,int $id): Article
+    public function update(StoreRequest $request, int $id): Article
     {
         $data = $request->validated();
         $article = $this->repo->update($data, $id);

@@ -21,8 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2ee58e93-53cd-40de-8d96-dc6132c5bfd9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Domains/Article/Entities/Article.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Article/Entities/Article.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Domains/Article/Services/ArticleService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Domains/Article/Services/ArticleService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/ArticleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/ArticleController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,6 +212,7 @@
       <workItem from="1599764449339" duration="3739000" />
       <workItem from="1606389386058" duration="5067000" />
       <workItem from="1606750891437" duration="6552000" />
+      <workItem from="1606814391035" duration="513000" />
     </task>
     <servers />
   </component>
@@ -235,6 +236,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="624" y="215" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606764035406" />
+    <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1606814384140">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606814384140" />
     <state x="587" y="182" key="NewPhpClassDialog" timestamp="1606764240572">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -243,11 +248,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="705" y="149" key="RollbackChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606750978692" />
-    <state x="623" y="225" width="840" height="678" key="search.everywhere.popup" timestamp="1606764611372">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1606814456256">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1606392254868" />
-    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606389704460" />
+    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606814456256" />
     <state x="623" y="225" width="840" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606764611372" />
   </component>
 </project>
