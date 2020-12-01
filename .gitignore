@@ -10,7 +10,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.idea
-.idea/mehnat-class-back.iml
-.idea/php.xml
-.idea/workspace.xml
+/.idea
