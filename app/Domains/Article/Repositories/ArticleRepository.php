@@ -9,34 +9,21 @@ use Mehnat\Article\Entities\Article;
 
 class ArticleRepository extends AbstractRepository
 {
-    protected $request_fields = ['user_id', 'alias', 'text'];
 
-    public function __construct(Article $model)
+    public function __construct(Article $entity)
     {
-        $this->model = $model;
+        $this->entity = $entity;
     }
-
-    public function create($data): object
-    {
-        $params = [
-            'user_id' => $data['user_id'],
-            'alias' => $data['alias'],
-            'text' => $data['text']
-        ];
-        return $this->model->create($params);
-//        return $this->store($data, $this->request_fields);
+    public function storeAsRead($params){
+        $params['read'] = true;
+        return $this->store($params);
     }
-
-    public function update($data, $id): object
+    public function destroyWithQueryFilter($id)
     {
-        $model = $this->getById($this->model, $id);
-        $model->update($data);
-        return $model;
+        $item = $this->getQuery()->where('active', true)->first();
+        return $item->delete();
     }
-
-    public function destroy($id)
-    {
-        $model = $this->getById($this->model, $id);
-        return $model->delete();
+    public function getNameAttribute($value){
+        return $value . '-';
     }
 }

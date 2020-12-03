@@ -7,33 +7,38 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class AbstractRepository
 {
-    protected $model;
+    protected $entity;
 
     public function getQuery()
     {
-        return $query = $this->model->query();
+        return $this->entity->query();
     }
 
-    public function getById($query, $id): object
+    public function getById($id): object
     {
-        return $query->findOrFail($id);
+        return $this->entity->find($id);
     }
 
-    public function getAll(Builder $query = null): object
+    public function getAll(int $perPage = 0): object
     {
-        if (request()->get('getAll', false))
-            return $query->get();
-        else
-            return $query->paginate(request()->get('limit', 15));
+            return $this->entity->get();
     }
 
-    public function store($data, $params): array
+    public function store(array $params): object
     {
-        $columns = [];
-        foreach ($data as $key => $item) {
-            if (in_array($key, $params)) {
-                array_push($columns, [$key => $item]);
-            }
-        }
+        return $this->entity->create($params);
+    }
+    
+    public function update(array $params, int $id): object
+    {
+        $object = $this->getById($id);
+        $object->update($params);
+        return $object;
+    }
+
+    public function destroy(int $id): bool
+    {
+        $entity = $this->getById($id);
+        return $entity->delete();
     }
 }

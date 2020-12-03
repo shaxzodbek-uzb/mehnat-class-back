@@ -12,9 +12,10 @@ class ArticleService extends AbstractService
 {
     protected $filter_fields = ['user_id' => ['type' => 'number'], 'alias' => ['type' => 'string', 'exact' => false]];
 
-    public function __construct(ArticleRepository $repo)
+    public function __construct(ArticleRepository $repo, $filter_params = [])
     {
         $this->repo = $repo;
+        $this->loadFilterParams($filter_params)
     }
 
     public function create(StoreRequest $request): object

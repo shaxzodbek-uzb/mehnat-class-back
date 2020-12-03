@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->isLocal()) {
             $this->app->register(TelescopeServiceProvider::class);
         }
+        $this->app->bind(' App\Domains\Article\Services\ArticleService', function ($app) {
+            return new \App\Domains\Article\Services\ArticleService($app->make('App\Domains\Article\Repositories\ArticleRepository'), request()->all());
+        });
     }
 
     /**

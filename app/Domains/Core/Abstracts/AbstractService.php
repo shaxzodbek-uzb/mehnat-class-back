@@ -9,6 +9,7 @@ abstract class AbstractService
 
     protected $repo;
     protected $filter_fields;
+    public function loadFilterParams(array $params);
 
     public function filter(Builder $query, $filter_fields, $request): Builder
     {
