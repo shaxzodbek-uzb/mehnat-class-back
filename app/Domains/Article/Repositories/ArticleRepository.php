@@ -4,48 +4,30 @@
 namespace App\Domains\Article\Repositories;
 
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
+use App\Domains\Core\Abstracts\AbstractRepository;
 use Mehnat\Article\Entities\Article;
 
-class ArticleRepository
+class ArticleRepository extends AbstractRepository
 {
-    private $model;
+    protected $request_fields = ['user_id', 'alias', 'text'];
 
-    public function __construct()
+    public function __construct(Article $model)
     {
-        $this->model = new Article;
+        $this->model = $model;
     }
 
-    public function getQuery()
+    public function create($data): object
     {
-        return $query = $this->model->query();
+        $params = [
+            'user_id' => $data['user_id'],
+            'alias' => $data['alias'],
+            'text' => $data['text']
+        ];
+        return $this->model->create($params);
+//        return $this->store($data, $this->request_fields);
     }
 
-    public function getAll(Builder $query = null): Collection
-    {
-        if ($query)
-            return $query->get();
-        else
-            return $this->model->all();
-    }
-
-    public function create($data)
-    {
-        $model = $this->model;
-        $model->user_id = $data['user_id'];
-        $model->alias = $data['alias'];
-        $model->text = $data['text'];
-        $model->save();
-        return $model;
-    }
-
-    public function getById($query, $id): Article
-    {
-        return $query->findOrFail($id);
-    }
-
-    public function update($data, $id): Article
+    public function update($data, $id): object
     {
         $model = $this->getById($this->model, $id);
         $model->update($data);
@@ -55,7 +37,6 @@ class ArticleRepository
     public function destroy($id)
     {
         $model = $this->getById($this->model, $id);
-
         return $model->delete();
     }
 }
