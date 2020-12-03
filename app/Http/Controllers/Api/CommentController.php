@@ -13,13 +13,13 @@ use Mehnat\Comment\Transformers\CommentTransformer;
 class CommentController extends Controller
 {
     private $manager;
-    private $commentService;
+    protected $service;
     private $commentTransformer;
 
-    public function __construct()
+    public function __construct(CommentService $service)
     {
+        $this->service = $service;
         $this->manager = new Manager;
-        $this->commentService = new CommentService;
         $this->commentTransformer = new CommentTransformer;
 
         if (isset($_GET['include'])) {
@@ -30,11 +30,12 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $comments = $this->commentService->all();
+        $comments = $this->service->get($request);
         $resource = new Fractal\Resource\Collection($comments, $this->commentTransformer);
         return response()->json($this->manager->createData($resource)->toArray());
     }
@@ -47,7 +48,7 @@ class CommentController extends Controller
      */
     public function store(CommentRequest\StoreRequest $request)
     {
-        $result = $this->commentService->create($request);
+        $result = $this->service->create($request);
         if ($result) {
             $resource = new Fractal\Resource\Item($result, $this->commentTransformer);
 //            return response()->json($this->manager->createData($resource)->toArray());
@@ -66,7 +67,7 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        $comment = $this->commentService->show($id);
+        $comment = $this->service->show($id);
         $resource = new Fractal\Resource\Item($comment, $this->commentTransformer);
         return response()->json($this->manager->createData($resource)->toArray());
     }
@@ -91,7 +92,7 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->commentService->delete($id);
+        $result = $this->service->delete($id);
         if ($result) {
             return [
                 'success' => true,
