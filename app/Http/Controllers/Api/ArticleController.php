@@ -34,9 +34,9 @@ class ArticleController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function index(ArticleIndexRequest $request)
+    public function index(Request $request)
     {
-        $articles = $this->articleService->get($request->validate());
+        $articles = $this->articleService->get($request);
         $resource = new Fractal\Resource\Collection($articles, $this->articleTransformer);
         return response()->json($this->manager->createData($resource)->toArray());
     }

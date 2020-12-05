@@ -15,20 +15,4 @@ class CommentService extends AbstractService
     {
         $this->repo = $repo;
     }
-
-    public function create(array $params): object
-    {
-        return $this->repo->create($params);
-    }
-
-    public function update(CommentRequest\StoreRequest $request, int $id): object
-    {
-        $data = $request->validated();
-        return $this->repo->update($data, $id);
-    }
-
-    public function delete(int $id)
-    {
-        return $this->repo->destroy($id);
-    }
 }

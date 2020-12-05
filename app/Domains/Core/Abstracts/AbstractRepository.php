@@ -19,9 +19,14 @@ abstract class AbstractRepository
         return $this->entity->find($id);
     }
 
-    public function getAll(int $perPage = 0): object
+    public function getAll(object $query = null, int $perPage = 0): object
     {
-            return $this->entity->get();
+        $q = $this->entity;
+
+        if($query)
+            $q = $query;
+        
+        return $q->get();
     }
 
     public function store(array $params): object
@@ -41,4 +46,10 @@ abstract class AbstractRepository
         $entity = $this->getById($id);
         return $entity->delete();
     }
+    
+    public function create($data): object
+    {
+        return $this->entity->create($data);
+    }
+
 }

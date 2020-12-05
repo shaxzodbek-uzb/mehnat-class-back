@@ -48,9 +48,7 @@ abstract class AbstractService
 
     public function show($id): object
     {
-        $query = $this->repo->getQuery();
-        $query = $this->repo->getById($query, $id);
-        return $query;
+        return $this->repo->getById($id);
     }
 
     public function delete(int $id)

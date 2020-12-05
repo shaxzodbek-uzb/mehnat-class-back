@@ -12,7 +12,7 @@ class Comment extends Model
     public $table = 'comments';
 
     protected $fillable = [
-        'use_id', 'article_id', 'text'
+        'user_id', 'article_id', 'text'
     ];
     public function user()
     {
