@@ -15,7 +15,7 @@ class ArticleService extends AbstractService
     public function __construct(ArticleRepository $repo, $filter_params = [])
     {
         $this->repo = $repo;
-        $this->loadFilterParams($filter_params)
+        $this->loadFilterParams($filter_params);
     }
 
     public function create(StoreRequest $request): object

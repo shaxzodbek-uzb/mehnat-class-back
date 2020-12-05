@@ -21,6 +21,7 @@ class AuthRepository
             ]);
             return json_decode((string) $response->getBody(), true);
         } catch (\GuzzleHttp\Exception\BadResponseException $e){
+            dd($e);
             if ($e->getCode() == 400){
                 return response()->json('Iltimos login va parolingizni kiriting.', $e->getCode());
             } else if($e->getCode() == 401) {

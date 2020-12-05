@@ -31,7 +31,7 @@ class CommentRepository extends AbstractRepository
         return $model;
     }
 
-    public function destroy($id)
+    public function destroy(int $id): bool
     {
         $model = $this->getById($this->model, $id);
 
