@@ -25,11 +25,9 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string|unique:users,username',
             'fullname' => 'required',
-            'age' => 'numeric|max:70',
-            'status' => 'nullable|numeric|max:70',
-            'password' => 'nullable'
+            'password' => 'nullable',
+            'birth_date' => 'nullable'
         ];
     }
 }
