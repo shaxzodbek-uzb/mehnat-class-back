@@ -77,11 +77,20 @@ class CommentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function update(Request $request, $id)
+    public function update(CommentRequest\StoreRequest $request, int $id)
     {
-        //
+        $params = $request->validated();
+        $result = $this->service->edit($params, $id);
+        if ($result) {
+            $resource = new Fractal\Resource\Item($result, $this->commentTransformer);
+//            return response()->json($this->manager->createData($resource)->toArray());
+            return [
+                'success' => true,
+                'result' => $result
+            ];
+        }
     }
 
     /**

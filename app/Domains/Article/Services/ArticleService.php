@@ -5,7 +5,6 @@ namespace App\Domains\Article\Services;
 
 
 use App\Domains\Article\Repositories\ArticleRepository;
-use App\Http\Requests\ArticleRequest\StoreRequest;
 use Mehnat\Core\Abstracts\AbstractService;
 
 class ArticleService extends AbstractService
@@ -17,18 +16,5 @@ class ArticleService extends AbstractService
         $this->repo = $repo;
         $this->loadFilterParams($filter_params);
     }
-
-    public function create(StoreRequest $request): object
-    {
-        $data = $request->validated();
-        return $this->repo->create($data);
-    }
-
-    public function update(StoreRequest $request, int $id): object
-    {
-        $data = $request->validated();
-        return $this->repo->update($data, $id);
-    }
-
 
 }

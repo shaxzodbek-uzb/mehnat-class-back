@@ -56,4 +56,13 @@ abstract class AbstractService
         return $this->repo->destroy($id);
     }
 
+    public function create($data): object
+    {
+        return $this->repo->store($data);
+    }
+
+    public function edit(array $params, int $id): object
+    {
+        return $this->repo->update($params, $id);
+    }
 }
