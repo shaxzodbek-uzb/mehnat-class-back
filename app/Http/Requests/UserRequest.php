@@ -26,8 +26,11 @@ class UserRequest extends FormRequest
     {
         return [
             'fullname' => 'required',
-            'password' => 'nullable',
-            'birth_date' => 'nullable'
+            'username' => 'nullable',
+            'password' => 'required',
+            'birth_date' => 'required',
+            'phone' => 'required',
+            'gender' => 'required'
         ];
     }
 }
