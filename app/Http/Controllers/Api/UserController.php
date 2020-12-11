@@ -51,7 +51,7 @@ class UserController extends Controller
     {
         $result = $this->userService->getCreate($request);
         if ($result) {
-            return Response::get(true, $result, 'Successfully created!');
+            return response()->get(true, $result, 'Successfully created!');
         }
     }
 

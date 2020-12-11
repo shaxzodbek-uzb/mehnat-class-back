@@ -26,12 +26,15 @@ class UserRepository
 
     public function create($data)
     {
+        $username = strtolower($data['fullname']) . '_' . mt_rand(1, 100);
         $model = $this->users;
-        $model->username = $data['username'];
         $model->fullname = $data['fullname'];
-        $model->age = $data['age'];
-        $model->status = $data['status'];
         $model->password = $data['password'];
+        $model->username = $username;
+        $model->birth_date = $data['birth_date'];
+        $model->phone = $data['phone'];
+        $model->gender = $data['gender'];
+        
         $model->save();
         return $model;
 

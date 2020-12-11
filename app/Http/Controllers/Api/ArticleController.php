@@ -49,7 +49,8 @@ class ArticleController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $result = $this->articleService->create($request);
+        $params = $request->validated();
+        $result = $this->articleService->create($params);
         if ($result) {
             return [
                 'success' => true,
@@ -80,7 +81,8 @@ class ArticleController extends Controller
      */
     public function update(StoreRequest $request, int $id)
     {
-        $result = $this->articleService->update($request, $id);
+        $params = $request->validated();
+        $result = $this->articleService->edit($params, $id);
         if ($result) {
             return [
                 'success' => true,

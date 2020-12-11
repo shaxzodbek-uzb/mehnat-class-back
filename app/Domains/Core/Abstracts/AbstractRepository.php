@@ -3,8 +3,6 @@
 
 namespace App\Domains\Core\Abstracts;
 
-use Illuminate\Database\Eloquent\Builder;
-
 abstract class AbstractRepository
 {
     protected $entity;
@@ -25,7 +23,7 @@ abstract class AbstractRepository
 
         if($query)
             $q = $query;
-        
+
         return $q->get();
     }
 
@@ -33,7 +31,7 @@ abstract class AbstractRepository
     {
         return $this->entity->create($params);
     }
-    
+
     public function update(array $params, int $id): object
     {
         $object = $this->getById($id);
@@ -45,11 +43,6 @@ abstract class AbstractRepository
     {
         $entity = $this->getById($id);
         return $entity->delete();
-    }
-    
-    public function create($data): object
-    {
-        return $this->entity->create($data);
     }
 
 }
