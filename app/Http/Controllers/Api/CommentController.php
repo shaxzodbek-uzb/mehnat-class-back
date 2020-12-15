@@ -48,7 +48,8 @@ class CommentController extends Controller
      */
     public function store(CommentRequest\StoreRequest $request)
     {
-        $result = $this->service->create($request);
+        $params = $request->validated();
+        $result = $this->service->create($params);
         if ($result) {
             $resource = new Fractal\Resource\Item($result, $this->commentTransformer);
 //            return response()->json($this->manager->createData($resource)->toArray());

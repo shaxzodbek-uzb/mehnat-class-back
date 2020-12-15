@@ -26,7 +26,8 @@ class UserRepository
 
     public function create($data)
     {
-        $username = strtolower($data['fullname']) . '_' . mt_rand(1, 100);
+        $username = explode(" ", $data['fullname']);
+        $username = strtolower($username[0]) . '_' . mt_rand(1, 100);
         $model = $this->users;
         $model->fullname = $data['fullname'];
         $model->password = $data['password'];
