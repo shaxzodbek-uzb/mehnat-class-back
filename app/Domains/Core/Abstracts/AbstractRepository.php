@@ -24,7 +24,15 @@ abstract class AbstractRepository
         if($query)
             $q = $query;
 
+        if($perPage != 0)
+            $q->paginate($perPage);
+
         return $q->get();
+    }
+    
+    public function getAllWithPagination($perPage): object
+    {
+        return $this->entity->paginate($perPage);
     }
 
     public function store(array $params): object

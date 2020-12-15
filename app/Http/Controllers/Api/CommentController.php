@@ -6,9 +6,9 @@ use League\Fractal;
 use League\Fractal\Manager;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CommentRequest;
 use Mehnat\Comment\Services\CommentService;
 use Mehnat\Comment\Transformers\CommentTransformer;
+use App\Http\Requests\Comment\{IndexRequest, StoreRequest};
 
 class CommentController extends Controller
 {
@@ -33,11 +33,14 @@ class CommentController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
         $comments = $this->service->get($request);
+        $fields = $this->service->fields();
         $resource = new Fractal\Resource\Collection($comments, $this->commentTransformer);
-        return response()->json($this->manager->createData($resource)->toArray());
+        $data = $this->manager->createData($resource)->toArray();
+        $data['fields'] = $fields;
+        return response()->json($data);
     }
 
     /**
@@ -46,7 +49,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function store(CommentRequest\StoreRequest $request)
+    public function store(StoreRequest $request)
     {
         $params = $request->validated();
         $result = $this->service->create($params);
