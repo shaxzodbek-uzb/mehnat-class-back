@@ -14,13 +14,13 @@ use League\Fractal\Manager;
 class ArticleController extends Controller
 {
     private $manager;
-    private $articleService;
+    private $service;
     private $articleTransformer;
 
     public function __construct(ArticleService $service)
     {
         $this->manager = new Manager;
-        $this->articleService = $service; //app()->make(ArticleService::class);
+        $this->service = $service; //app()->make(service::class);
         $this->articleTransformer = new ArticleTransformer;
 
         if (isset($_GET['include'])) {
@@ -36,9 +36,13 @@ class ArticleController extends Controller
      */
     public function index(IndexRequest $request)
     {
-        $articles = $this->articleService->get($request);
+        $articles = $this->service->get($request);
+        $fields = $this->service->fields();
         $resource = new Fractal\Resource\Collection($articles, $this->articleTransformer);
-        return response()->json($this->manager->createData($resource)->toArray());
+        $data = $this->manager->createData($resource)->toArray();
+
+        $data['fields'] = $fields;
+        return response()->json($data);
     }
 
     /**
@@ -50,7 +54,7 @@ class ArticleController extends Controller
     public function store(StoreRequest $request)
     {
         $params = $request->validated();
-        $result = $this->articleService->create($params);
+        $result = $this->service->create($params);
         if ($result) {
             return [
                 'success' => true,
@@ -67,7 +71,7 @@ class ArticleController extends Controller
      */
     public function show(int $id)
     {
-        $article = $this->articleService->show($id);
+        $article = $this->service->show($id);
         $resource = new Fractal\Resource\Item($article, $this->articleTransformer);
         return response()->json($this->manager->createData($resource)->toArray());
     }
@@ -82,7 +86,7 @@ class ArticleController extends Controller
     public function update(StoreRequest $request, int $id)
     {
         $params = $request->validated();
-        $result = $this->articleService->edit($params, $id);
+        $result = $this->service->edit($params, $id);
         if ($result) {
             return [
                 'success' => true,
@@ -99,7 +103,7 @@ class ArticleController extends Controller
      */
     public function destroy(int $id)
     {
-        $result = $this->articleService->delete($id);
+        $result = $this->service->delete($id);
         if ($result) {
             return [
                 'success' => true,

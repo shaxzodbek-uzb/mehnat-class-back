@@ -9,23 +9,15 @@ class BelongsTo {
     public $type = 'belongsToField';
     public $relation_name;
 
-    public static function make(string $key, $relation_name = ''): self
+    public static function make(string $class, $relation_name): self
     {
+        $related_resource = new $class;
         $obj = new self;
-        $obj->key = $key;
+        $obj->key = $relation_name . '_id';
         $obj->relation_name = $relation_name;
-        $obj->label = $key;
+        $obj->related_object_title = $related_resource->title;
+        $obj->label = $relation_name;
         $obj->value = '';
         return $obj;
-    }
-
-    public function toArray(){
-
-        return [
-            'type' => $this->type,
-            'key' => $this->key,
-            'label' => $this->label,
-            'value' => $this->value,
-        ];
     }
 }

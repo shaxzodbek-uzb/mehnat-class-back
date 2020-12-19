@@ -9,7 +9,7 @@ use League\Fractal;
 class CommentTransformer extends Fractal\TransformerAbstract
 {
     protected $availableIncludes = [
-        'articles',
+        'article',
         'user'
     ];
 	public function transform(Comment $comment)
@@ -22,7 +22,7 @@ class CommentTransformer extends Fractal\TransformerAbstract
         ];
     }
 
-    public function includeArticles(Comment $comment)
+    public function includeArticle(Comment $comment)
     {
         return $this->item($comment->article, new ArticleTransformer);
     }

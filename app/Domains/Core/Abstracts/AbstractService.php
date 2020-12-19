@@ -65,4 +65,8 @@ abstract class AbstractService
     {
         return $this->repo->update($params, $id);
     }
+    public function fields()
+    {
+        return (new $this->resource)->fields();
+    }
 }
