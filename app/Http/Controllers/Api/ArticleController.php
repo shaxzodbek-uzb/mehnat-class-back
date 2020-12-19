@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Domains\Article\Services\ArticleService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ArticleRequest\StoreRequest;
+use App\Http\Requests\Article\{IndexRequest, StoreRequest};
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Mehnat\Article\Transformers\ArticleTransformer;
@@ -34,7 +34,7 @@ class ArticleController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
         $articles = $this->articleService->get($request);
         $resource = new Fractal\Resource\Collection($articles, $this->articleTransformer);

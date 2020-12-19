@@ -6,6 +6,7 @@ use Illuminate\Validation\Rule;
 interface IndexRequestInterface
 {
     const DEFAULT_INDEX_RULES = [
+        'include' => 'string',
         //sort
         /*
             'sort' => [
@@ -17,10 +18,7 @@ interface IndexRequestInterface
         */
         'sort' => 'nullable|array',
         'sort.*.key' => 'required_with:sort',
-        'sort.*.type' => [
-            'required_with:sort',
-             'in : ans, desc',
-        ],
+        'sort.*.type' => 'required_with:sort|in:ans,desc',
 
         //filter
         /*
@@ -35,10 +33,7 @@ interface IndexRequestInterface
 
         'filter' => 'nullable|array',
         'filter.*.key' => 'required_with:filter',
-        'filter.*.type' => [
-            'required_with:filter',
-             'in: equal, like, in, between, greater'
-        ],
+        'filter.*.type' => 'required_with:filter|in:equal,like,in,between,greater',
         'filter.*.value' => 'required_with:filter',
 
         //paginate
