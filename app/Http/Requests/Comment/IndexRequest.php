@@ -7,7 +7,7 @@ use App\Http\Requests\Core\IndexRequestInterface;
 
 class IndexRequest extends FormRequest implements IndexRequestInterface
 {
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,10 +25,6 @@ class IndexRequest extends FormRequest implements IndexRequestInterface
      */
     public function rules()
     {
-        return [];
-        // return merge_array(self::DEFAULT_INDEX_RULES, [
-        //     'user_logs' => 'required'
-
-        // ]);
+         return self::DEFAULT_INDEX_RULES;
     }
 }

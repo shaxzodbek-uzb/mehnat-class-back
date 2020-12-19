@@ -16,12 +16,12 @@ interface IndexRequestInterface
             ]
         */
         'sort' => 'nullable|array',
-        'sort.*.key' => 'required',
+        'sort.*.key' => 'required_with:sort',
         'sort.*.type' => [
-            'required',
-            // Rule::in(['ans', 'desc'])
+            'required_with:sort',
+             'in : ans, desc',
         ],
-        
+
         //filter
         /*
             'filter' => [
@@ -32,12 +32,12 @@ interface IndexRequestInterface
                 ]
             ]
         */
-        
+
         'filter' => 'nullable|array',
         'filter.*.key' => 'required_with:filter',
         'filter.*.type' => [
             'required_with:filter',
-            // Rule::in(['equal', 'like', 'in', 'between', 'greater'])
+             'in: equal, like, in, between, greater'
         ],
         'filter.*.value' => 'required_with:filter',
 
@@ -48,7 +48,7 @@ interface IndexRequestInterface
                 'per_page' => 10
             ]
         */
-        
+
         'pagination' => 'nullable|array',
         'pagination.page' => 'nullable|numeric',
         'pagination.per_page' => 'nullable|numeric'
