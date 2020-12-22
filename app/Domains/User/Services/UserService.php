@@ -3,52 +3,22 @@
 namespace Mehnat\User\Services;
 
 use App\Http\Requests\UserRequest;
+use Mehnat\Core\Abstracts\AbstractService;
 use Mehnat\User\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Collection;
 use Mehnat\User\Entities\User;
+use Mehnat\User\Resources\UserResource;
 
-class UserService
+class UserService extends AbstractService
 {
     private $userRepo;
+    protected $resource = UserResource::class;
 
     public function __construct()
     {
         $this->userRepo = new UserRepository();
-    }
-
-    public function filter(Builder $query): Builder
-    {
-        $user_name = request()->get('username', false);
-        $age = request()->get('age', false);
-        $status = request()->get('status', false);
-
-        if ($user_name) {
-            $query->where('username', 'like', "%$user_name%");
-        }
-
-        if ($age) {
-            $query->where('age', '=', $age);
-        }
-
-        if ($status) {
-            switch ($status) {
-                case 1:
-                    $query->active();
-                    break;
-                case 2:
-                    $query->disabled();
-                    break;
-                case 0:
-                    $query->bunned();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        return $query;
     }
 
     public function sort($query): Builder
@@ -60,16 +30,9 @@ class UserService
         return $query;
     }
 
-    public function notify($user, string $type)
-    {
-        $strategy = (new NotificationStrategy)->getStrategy($type);
-        $strategy->send();
-    }
-
     public function getUsers(): Collection
     {
         $users = $this->userRepo->getQuery();
-        $users = $this->filter($users);
         $users = $this->sort($users);
         $users = $users->orderBy('id', 'desc');
         $users = $this->userRepo->getAll($users->with(request('include')));

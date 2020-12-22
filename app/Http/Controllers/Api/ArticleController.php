@@ -45,6 +45,13 @@ class ArticleController extends Controller
         return response()->json($data);
     }
 
+    public function create()
+    {
+        $fields = $this->service->fields();
+        $data['fields'] = $fields;
+        return response()->json($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

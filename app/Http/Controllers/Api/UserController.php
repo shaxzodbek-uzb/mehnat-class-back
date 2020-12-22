@@ -15,18 +15,18 @@ use League\Fractal\Manager;
 class UserController extends Controller
 {
 
-    private $userService;
+    private $service;
     private $manager;
     private $userTransformer;
 
-    public function __construct()
+    public function __construct(UserService $service)
     {
         $this->manager = new Manager;
         if (isset($_GET['include'])) {
             $this->manager->parseIncludes(request()->get('include'));
         }
         $this->userTransformer = new UserTransformer;
-        $this->userService = new UserService;
+        $this->service = $service;
     }
 
     /**
@@ -36,9 +36,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userService->getUsers();
+        $users = $this->service->getUsers();
+        $fields = $this->service->fields();
         $resource = new Fractal\Resource\Collection($users, $this->userTransformer);
-        return response()->json($this->manager->createData($resource)->toArray());
+        $data = $this->manager->createData($resource)->toArray();
+        $data['fields'] = $fields;
+        return response()->json($data);
+    }
+
+    public function create()
+    {
+        $fields = $this->service->fields();
+        $data['fields'] = $fields;
+        return response()->json($data);
     }
 
     /**
@@ -49,7 +59,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $result = $this->userService->getCreate($request);
+        $result = $this->service->getCreate($request);
         if ($result) {
             return response()->get(true, $result, 'Successfully created!');
         }
@@ -63,7 +73,7 @@ class UserController extends Controller
      */
     public function show(int $id)
     {
-        $result = $this->userService->getShow($id);
+        $result = $this->service->getShow($id);
         $resource = new Fractal\Resource\Item($result, $this->userTransformer);
         return response()->json($this->manager->createData($resource)->toArray());
     }
@@ -77,7 +87,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, int $id)
     {
-        $result = $this->userService->getUpdate($request, $id);
+        $result = $this->service->getUpdate($request, $id);
         if ($result) {
             return response()->json([
                 'success' => true,
@@ -94,7 +104,7 @@ class UserController extends Controller
      */
     public function destroy(int  $id)
     {
-        $result = $this->userService->getDelete($id);
+        $result = $this->service->getDelete($id);
         if ($result) {
             return [
                 'success' => true,
