@@ -79,8 +79,13 @@ class ArticleController extends Controller
     public function show(int $id)
     {
         $article = $this->service->show($id);
+        $fields = $this->service->fields();
         $resource = new Fractal\Resource\Item($article, $this->articleTransformer);
-        return response()->json($this->manager->createData($resource)->toArray());
+        $data = $this->manager->createData($resource)->toArray();
+
+        $data['fields'] = $fields;
+
+        return response()->json($data);
     }
 
     /**
