@@ -55,7 +55,7 @@ class CommentController extends Controller
         $data['fields'] = $fields;
         return response()->json($data);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -94,9 +94,18 @@ class CommentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(CommentRequest\StoreRequest $request, int $id)
+
+    public function edit(int $id)
+    {
+        $data['data'] = $this->service->show($id);
+        $fields = $this->service->fields();
+        $data['fields'] = $fields;
+        return response()->json($data);
+    }
+
+    public function update(StoreRequest $request, int $id)
     {
         $params = $request->validated();
         $result = $this->service->edit($params, $id);
@@ -108,6 +117,10 @@ class CommentController extends Controller
                 'result' => $result
             ];
         }
+        return [
+            'success' => false,
+            'result' => 'No result. Something went wrong'
+        ];
     }
 
     /**

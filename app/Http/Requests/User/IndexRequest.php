@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteUserRequest extends FormRequest
+class IndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class DeleteUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class DeleteUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'fullname' => 'nullable',
+            'username' => 'nullable',
+            'birth_date' => 'nullable',
+            'phone' => 'nullable',
+            'gender' => 'nullable'
         ];
     }
 }

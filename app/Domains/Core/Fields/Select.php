@@ -1,12 +1,15 @@
 <?php
 
+
 namespace Mehnat\Core\Fields;
 
-class Text {
+
+class Select
+{
     public $key;
     public $value;
     public $label;
-    public $type = 'textField';
+    public $type = 'selectField';
 
     public static function make(string $key): self
     {

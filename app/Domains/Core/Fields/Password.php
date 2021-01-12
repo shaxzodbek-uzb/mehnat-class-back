@@ -1,12 +1,15 @@
 <?php
 
+
 namespace Mehnat\Core\Fields;
 
-class Text {
+
+class Password
+{
     public $key;
     public $value;
     public $label;
-    public $type = 'textField';
+    public $type = 'passwordField';
 
     public static function make(string $key): self
     {

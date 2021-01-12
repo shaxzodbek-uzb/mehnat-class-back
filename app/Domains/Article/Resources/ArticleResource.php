@@ -8,14 +8,14 @@ class ArticleResource
 {
     public $model = Article::class;
     public $title = 'alias';
-    
+
     public function fields(): array
     {
         return [
             ID::make(),
+            BelongsTo::make(UserResource::class, 'user'),
             Text::make('text'),
             Text::make('alias'),
-            BelongsTo::make(UserResource::class, 'user'),
         ];
     }
 }

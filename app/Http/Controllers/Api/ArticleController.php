@@ -45,6 +45,13 @@ class ArticleController extends Controller
         return response()->json($data);
     }
 
+    public function create()
+    {
+        $fields = $this->service->fields();
+        $data['fields'] = $fields;
+        return response()->json($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -72,8 +79,13 @@ class ArticleController extends Controller
     public function show(int $id)
     {
         $article = $this->service->show($id);
+        $fields = $this->service->fields();
         $resource = new Fractal\Resource\Item($article, $this->articleTransformer);
-        return response()->json($this->manager->createData($resource)->toArray());
+        $data = $this->manager->createData($resource)->toArray();
+
+        $data['fields'] = $fields;
+
+        return response()->json($data);
     }
 
     /**
@@ -83,6 +95,15 @@ class ArticleController extends Controller
      * @param int $id
      * @return array
      */
+
+    public function edit(int $id)
+    {
+        $data['data'] = $this->service->show($id);
+        $fields = $this->service->fields();
+        $data['fields'] = $fields;
+        return response()->json($data);
+    }
+
     public function update(StoreRequest $request, int $id)
     {
         $params = $request->validated();
