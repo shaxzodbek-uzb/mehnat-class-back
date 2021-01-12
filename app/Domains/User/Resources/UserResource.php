@@ -1,7 +1,7 @@
 <?php
 namespace Mehnat\User\Resources;
 
-use Mehnat\Core\Fields\{Select, ID, Text};
+use Mehnat\Core\Fields\{Select, ID, Text, Password};
 use Mehnat\User\Entities\User;
 
 class UserResource
@@ -15,7 +15,7 @@ class UserResource
             ID::make(),
             Text::make('username'),
             Text::make('fullname'),
-            Text::make('password'),
+            Password::make('password'),
             Text::make('birth_date'),
             Text::make('phone'),
             Select::make('gender'),
