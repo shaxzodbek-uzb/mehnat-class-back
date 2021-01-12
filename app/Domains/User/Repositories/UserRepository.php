@@ -2,67 +2,15 @@
 
 namespace Mehnat\User\Repositories;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
+use App\Domains\Core\Abstracts\AbstractRepository;
 use Mehnat\User\Entities\User;
 
 
-class UserRepository
+class UserRepository extends AbstractRepository
 {
-    private $users;
-
-    public function __construct()
+    public function __construct(User $entity)
     {
-        $this->users = new User;
+        $this->entity = $entity;
     }
 
-    public function getAll(Builder $query = null): Collection
-    {
-        if ($query)
-            return $query->get();
-        else
-            return $this->users->all();
-    }
-
-    public function create($data)
-    {
-        $username = explode(" ", $data['fullname']);
-        $username = strtolower($username[0]) . '_' . mt_rand(1, 100);
-        $model = $this->users;
-        $model->fullname = $data['fullname'];
-        $model->password = $data['password'];
-        $model->username = $username;
-        $model->birth_date = $data['birth_date'];
-        $model->phone = $data['phone'];
-        $model->gender = $data['gender'];
-        
-        $model->save();
-        return $model;
-
-
-    }
-
-    public function getById($query, $id): User
-    {
-        return $query->findOrFail($id);
-    }
-
-    public function update($data, $id): User
-    {
-        $model = $this->getById($this->users, $id);
-        $model->update($data);
-        return $model;
-    }
-
-    public function destroy($id)
-    {
-        $model = $this->getById($this->users, $id);
-//        return $model;
-        return $model->delete();
-    }
-
-    public function getQuery(): Builder
-    {
-        return $this->users->query();
-    }
 }

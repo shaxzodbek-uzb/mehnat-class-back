@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\User\IndexRequest;
+use App\Http\Requests\User\StoreRequest;
 use Mehnat\User\Services\UserService;
 use Mehnat\User\Transformers\UserTransformer;
 use League\Fractal;
@@ -34,9 +33,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $users = $this->service->getUsers();
+        $users = $this->service->get($request);
         $fields = $this->service->fields();
         $resource = new Fractal\Resource\Collection($users, $this->userTransformer);
         $data = $this->manager->createData($resource)->toArray();
@@ -55,11 +54,11 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return UserRequest|Request|\Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(StoreRequest $request)
     {
-        $result = $this->service->getCreate($request);
+        $params = $request->validated();
+        $result = $this->service->create($params);
         if ($result) {
             return response()->get(true, $result, 'Successfully created!');
         }
@@ -73,7 +72,7 @@ class UserController extends Controller
      */
     public function show(int $id)
     {
-        $result = $this->service->getShow($id);
+        $result = $this->service->show($id);
         $resource = new Fractal\Resource\Item($result, $this->userTransformer);
         return response()->json($this->manager->createData($resource)->toArray());
     }
@@ -85,15 +84,29 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateUserRequest $request, int $id)
+
+    public function edit(int $id)
     {
-        $result = $this->service->getUpdate($request, $id);
+        $data['data'] = $this->service->show($id);
+        $fields = $this->service->fields();
+        $data['fields'] = $fields;
+        return response()->json($data);
+    }
+
+    public function update(StoreRequest $request, int $id)
+    {
+        $params = $request->validated();
+        $result = $this->service->edit($params, $id);
         if ($result) {
             return response()->json([
                 'success' => true,
                 'result' => $result
             ]);
         }
+        return response()->json([
+            'success' => false,
+            'result' => 'Something went wrong'
+        ]);
     }
 
     /**
@@ -104,7 +117,7 @@ class UserController extends Controller
      */
     public function destroy(int  $id)
     {
-        $result = $this->service->getDelete($id);
+        $result = $this->service->delete($id);
         if ($result) {
             return [
                 'success' => true,

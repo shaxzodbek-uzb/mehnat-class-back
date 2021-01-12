@@ -90,6 +90,15 @@ class ArticleController extends Controller
      * @param int $id
      * @return array
      */
+
+    public function edit(int $id)
+    {
+        $data['data'] = $this->service->show($id);
+        $fields = $this->service->fields();
+        $data['fields'] = $fields;
+        return response()->json($data);
+    }
+
     public function update(StoreRequest $request, int $id)
     {
         $params = $request->validated();

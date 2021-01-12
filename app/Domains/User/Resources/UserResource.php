@@ -14,8 +14,8 @@ class UserResource
         return [
             ID::make(),
             Text::make('username'),
-            Text::make('password'),
             Text::make('fullname'),
+            Text::make('password'),
             Text::make('birth_date'),
             Text::make('phone'),
             Select::make('gender'),

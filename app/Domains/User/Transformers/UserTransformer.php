@@ -20,7 +20,8 @@ class UserTransformer extends Fractal\TransformerAbstract
             'fullname'   => $user->fullname,
             'birth_date'    => $user->birth_date,
             'phone' => $user->phone,
-            'gender' => $user->gender
+            'gender' => $user->gender,
+            'created_at' => $user->created_at
         ];
     }
     public function includeComments(User $user)
